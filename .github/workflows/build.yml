@@ -31,13 +31,9 @@ jobs:
       - name: Build extension
         run: pnpm run build:prod
 
-      - name: Create extension zip
-        run: |
-          zip -r chrome-extension.zip dist/*
-
       - name: Upload extension artifact
         uses: actions/upload-artifact@v5
         with:
           name: chrome-extension
-          path: chrome-extension.zip
+          path: dist/*
           retention-days: 30
