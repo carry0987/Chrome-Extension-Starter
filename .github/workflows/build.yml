@@ -33,9 +33,7 @@ jobs:
 
       - name: Create extension zip
         run: |
-          cd dist
-          zip -r ../chrome-extension.zip .
-          cd ..
+          zip -r chrome-extension.zip dist/*
 
       - name: Upload extension artifact
         uses: actions/upload-artifact@v5
