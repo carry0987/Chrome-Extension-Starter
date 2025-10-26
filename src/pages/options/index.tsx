@@ -45,7 +45,7 @@ const Options = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[var(--color-surface)] dark:bg-[var(--color-surface-dark)] text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
+            <div className="min-h-screen bg-surface dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
                 <div className="text-center">Loading...</div>
             </div>
         );
@@ -53,14 +53,14 @@ const Options = () => {
 
     if (!settings) {
         return (
-            <div className="min-h-screen bg-[var(--color-surface)] dark:bg-[var(--color-surface-dark)] text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
+            <div className="min-h-screen bg-surface dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
                 <div className="text-center text-red-500">Failed to load settings</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-[var(--color-surface)] dark:bg-[var(--color-surface-dark)] text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-surface dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 flex items-center justify-center p-6">
             <div className="w-full max-w-md card space-y-6">
                 <header>
                     <h1 className="card-header">Extension Options</h1>
@@ -93,7 +93,7 @@ const Options = () => {
                             type="checkbox"
                             checked={settings.likesColor}
                             onChange={(e) => setSettings({ ...settings, likesColor: e.currentTarget.checked })}
-                            className="size-4 accent-[var(--color-primary)]"
+                            className="size-4 accent-primary"
                         />
                         <span>I like colors.</span>
                     </label>
