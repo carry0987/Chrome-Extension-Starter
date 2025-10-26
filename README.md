@@ -195,14 +195,6 @@ Outputs optimized files to the `dist/` folder, ready for packaging or loading in
 
 ---
 
-## 🧱 Future Enhancements
-
-* [ ] Optional **Hot Reloading for content scripts**
-* [ ] Add **i18n support**
-* [ ] Add **typed ports** for long-lived messaging
-
----
-
 ## 📜 License
 
 [MIT](LICENSE) © 2025 carry0987
