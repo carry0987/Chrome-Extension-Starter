@@ -1,4 +1,4 @@
-import { SettingManager } from './lib/setting';
+import { SettingManager } from '@/shared/lib/setting';
 
 // ---- Version ----------------------------------------------------------------
 
