@@ -1,12 +1,12 @@
 import { kv } from './storage';
+import type { Settings } from '@/shared/config';
 
 // ---- Types ------------------------------------------------------------------
 
 /**
- * Generic settings manager interface
- * @template T - The type of settings object your extension uses
+ * Settings manager interface for extension settings
  */
-export interface ISettingManager<T = Record<string, unknown>> {
+export interface ISettingManager<T extends Settings = Settings> {
     load(): Promise<T>;
     save(settings: T): Promise<void>;
     isInit(): Promise<boolean>;
@@ -16,23 +16,23 @@ export interface ISettingManager<T = Record<string, unknown>> {
 }
 
 /**
- * Generic Settings Manager - manages extension settings in chrome.storage
- * @template T - The type of settings object your extension uses
+ * Settings Manager - manages extension settings in chrome.storage.sync
+ * @template T - The type of settings object (must extend Settings from schema)
  *
  * @example
  * ```typescript
- * interface MySettings {
+ * interface MySettings extends Settings {
  *   theme: string;
  *   enabled: boolean;
  * }
  *
  * const manager = new SettingManager<MySettings>(
  *   '1.0.0',
- *   () => ({ theme: 'dark', enabled: true })
+ *   () => ({ theme: 'dark', enabled: true, actions: {}, blocked: [] })
  * );
  * ```
  */
-export class SettingManager<T = Record<string, unknown>> implements ISettingManager<T> {
+export class SettingManager<T extends Settings = Settings> implements ISettingManager<T> {
     constructor(
         private readonly currentVersion: string,
         private readonly defaultSettings: () => T
@@ -64,7 +64,7 @@ export class SettingManager<T = Record<string, unknown>> implements ISettingMana
 
     /** Save settings to sync storage. */
     async save(settings: T): Promise<void> {
-        await kv.set('sync', 'settings', settings);
+        await kv.set('sync', 'settings', settings as Settings);
     }
 
     /** Whether storage has been initialized at least once. */
@@ -88,8 +88,8 @@ export class SettingManager<T = Record<string, unknown>> implements ISettingMana
     async init(): Promise<T> {
         const s = this.defaultSettings();
         await kv.setAll('sync', {
-            ['settings']: s,
-            ['version']: this.currentVersion
+            settings: s as Settings,
+            version: this.currentVersion
         });
 
         return s;
@@ -113,8 +113,8 @@ export class SettingManager<T = Record<string, unknown>> implements ISettingMana
             const migrated = { ...current };
 
             await kv.setAll('sync', {
-                ['settings']: migrated,
-                ['version']: this.currentVersion
+                settings: migrated as Settings,
+                version: this.currentVersion
             });
         }
     }
