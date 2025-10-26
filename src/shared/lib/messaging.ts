@@ -104,7 +104,27 @@ export const createMessenger = <M extends Record<string, { req?: any; res?: any 
         return off;
     };
 
-    return { sendToActive, sendToTab, on };
+    // Send message to background script
+    const sendToBackground = <K extends keyof M & string, TRes = M[K] extends { res: infer R } ? R : unknown>(
+        type: K,
+        payload?: M[K] extends { req: infer P } ? P : undefined,
+        opts?: { timeoutMs?: number }
+    ) =>
+        new Promise<TRes>((resolve, reject) => {
+            let timer: ReturnType<typeof setTimeout> | undefined;
+            if (opts?.timeoutMs) {
+                timer = globalThis.setTimeout(() => reject(new Error('Message timeout')), opts.timeoutMs);
+            }
+
+            chrome.runtime.sendMessage({ type, payload } as Message, (res) => {
+                if (timer) globalThis.clearTimeout(timer);
+                const err = chrome.runtime.lastError?.message;
+                if (err) return reject(new Error(err));
+                resolve(res as TRes);
+            });
+        });
+
+    return { sendToActive, sendToTab, sendToBackground, on };
 };
 
 // Export a concrete, typed bus for your message map
