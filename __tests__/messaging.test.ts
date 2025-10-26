@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { createMessenger } from '@/shared/lib/messaging';
 
 // Mock chrome.runtime and chrome.tabs API
 const mockRuntime = {
@@ -6,7 +7,8 @@ const mockRuntime = {
     onMessage: {
         addListener: vi.fn(),
         removeListener: vi.fn()
-    }
+    },
+    lastError: undefined as { message: string } | undefined
 };
 
 const mockTabs = {
@@ -174,6 +176,166 @@ describe('Messaging System', () => {
                     resolve();
                 });
             });
+        });
+    });
+
+    describe('sendToBackground', () => {
+        type TestMessageMap = {
+            PING: { req: { message: string }; res: { echo: string } };
+            GET_CONFIG: { req: undefined; res: { config: Record<string, any> } };
+            UPDATE_SETTING: { req: { key: string; value: any }; res: { success: boolean } };
+        };
+
+        it('should send message with payload and receive response', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+            const testPayload = { message: 'hello' };
+            const expectedResponse = { echo: 'hello' };
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                expect(msg.type).toBe('PING');
+                expect(msg.payload).toEqual(testPayload);
+                callback(expectedResponse);
+            });
+
+            const response = await messenger.sendToBackground('PING', testPayload);
+
+            expect(response).toEqual(expectedResponse);
+            expect(mockRuntime.sendMessage).toHaveBeenCalledWith(
+                { type: 'PING', payload: testPayload },
+                expect.any(Function)
+            );
+        });
+
+        it('should send message without payload', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+            const expectedResponse = { config: { theme: 'dark' } };
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                expect(msg.type).toBe('GET_CONFIG');
+                expect(msg.payload).toBeUndefined();
+                callback(expectedResponse);
+            });
+
+            const response = await messenger.sendToBackground('GET_CONFIG');
+
+            expect(response).toEqual(expectedResponse);
+            expect(mockRuntime.sendMessage).toHaveBeenCalledWith(
+                { type: 'GET_CONFIG', payload: undefined },
+                expect.any(Function)
+            );
+        });
+
+        it('should handle chrome.runtime.lastError', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                mockRuntime.lastError = { message: 'Could not establish connection' };
+                callback(undefined);
+            });
+
+            await expect(messenger.sendToBackground('PING', { message: 'test' })).rejects.toThrow(
+                'Could not establish connection'
+            );
+
+            // Clean up
+            mockRuntime.lastError = undefined;
+        });
+
+        it('should timeout if no response within specified time', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                // Simulate no response (callback not called)
+            });
+
+            await expect(
+                messenger.sendToBackground('PING', { message: 'test' }, { timeoutMs: 100 })
+            ).rejects.toThrow('Message timeout');
+        });
+
+        it('should clear timeout on successful response', async () => {
+            vi.useFakeTimers();
+            const messenger = createMessenger<TestMessageMap>();
+            const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                setTimeout(() => {
+                    callback({ echo: 'test' });
+                }, 50);
+            });
+
+            const promise = messenger.sendToBackground('PING', { message: 'test' }, { timeoutMs: 200 });
+            
+            vi.advanceTimersByTime(50);
+            await promise;
+
+            expect(clearTimeoutSpy).toHaveBeenCalled();
+
+            clearTimeoutSpy.mockRestore();
+            vi.useRealTimers();
+        });
+
+        it('should handle complex payload and response', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+            const complexPayload = {
+                key: 'user.preferences',
+                value: { theme: 'dark', language: 'zh-TW', notifications: true }
+            };
+            const expectedResponse = { success: true };
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                expect(msg.payload).toEqual(complexPayload);
+                callback(expectedResponse);
+            });
+
+            const response = await messenger.sendToBackground('UPDATE_SETTING', complexPayload);
+
+            expect(response).toEqual(expectedResponse);
+        });
+
+        it('should handle multiple concurrent messages', async () => {
+            const messenger = createMessenger<TestMessageMap>();
+            let callCount = 0;
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                callCount++;
+                setTimeout(() => {
+                    callback({ echo: msg.payload.message });
+                }, Math.random() * 50);
+            });
+
+            const promises = [
+                messenger.sendToBackground('PING', { message: 'msg1' }),
+                messenger.sendToBackground('PING', { message: 'msg2' }),
+                messenger.sendToBackground('PING', { message: 'msg3' })
+            ];
+
+            const results = await Promise.all(promises);
+
+            expect(results).toHaveLength(3);
+            expect(results[0]).toEqual({ echo: 'msg1' });
+            expect(results[1]).toEqual({ echo: 'msg2' });
+            expect(results[2]).toEqual({ echo: 'msg3' });
+            expect(callCount).toBe(3);
+        });
+
+        it('should reject on timeout even with delayed response', async () => {
+            vi.useFakeTimers();
+            const messenger = createMessenger<TestMessageMap>();
+
+            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+                setTimeout(() => {
+                    callback({ echo: 'too late' });
+                }, 150);
+            });
+
+            const promise = messenger.sendToBackground('PING', { message: 'test' }, { timeoutMs: 100 });
+
+            vi.advanceTimersByTime(100);
+
+            await expect(promise).rejects.toThrow('Message timeout');
+
+            vi.useRealTimers();
         });
     });
 
