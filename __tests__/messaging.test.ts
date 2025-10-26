@@ -57,7 +57,7 @@ describe('Messaging System', () => {
 
             registeredListener = mockRuntime.onMessage.addListener.mock.calls[0][0];
             const sendResponse = vi.fn();
-            
+
             registeredListener({ type: 'PING', payload: { text: 'hello' } }, {}, sendResponse);
 
             expect(sendResponse).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('Messaging System', () => {
         it('should send message to specific tab', async () => {
             const tabId = 123;
             const message = { type: 'TEST', payload: { data: 'test' } };
-            
+
             mockTabs.sendMessage.mockImplementation((id, msg, callback) => {
                 expect(id).toBe(tabId);
                 expect(msg).toEqual(message);
@@ -109,7 +109,7 @@ describe('Messaging System', () => {
     describe('Query Active Tab', () => {
         it('should query for active tab', async () => {
             const mockTab = { id: 456, active: true };
-            
+
             mockTabs.query.mockImplementation((query, callback) => {
                 expect(query).toEqual({ active: true, currentWindow: true });
                 callback([mockTab]);
@@ -202,11 +202,7 @@ describe('Messaging System', () => {
 
             // Simulate message
             const sendResponse = vi.fn();
-            const result = messageHandler(
-                { type: messageType, payload },
-                {},
-                sendResponse
-            );
+            const result = messageHandler({ type: messageType, payload }, {}, sendResponse);
 
             expect(result).toBe(true);
             expect(sendResponse).toHaveBeenCalledWith(expectedResponse);

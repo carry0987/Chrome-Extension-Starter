@@ -54,7 +54,7 @@ describe('SettingManager', () => {
     describe('load()', () => {
         it('should load existing settings when properly stored', async () => {
             const storedSettings = { theme: 'light', enabled: false, count: 5 };
-            
+
             mockStorage.sync.get.mockImplementation((key, callback) => {
                 if (key === 'settings') {
                     callback?.({ settings: storedSettings });
@@ -126,10 +126,7 @@ describe('SettingManager', () => {
 
             await manager.save(newSettings);
 
-            expect(mockStorage.sync.set).toHaveBeenCalledWith(
-                { settings: newSettings },
-                expect.any(Function)
-            );
+            expect(mockStorage.sync.set).toHaveBeenCalledWith({ settings: newSettings }, expect.any(Function));
         });
     });
 

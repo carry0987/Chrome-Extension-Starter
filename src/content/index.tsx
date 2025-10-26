@@ -28,7 +28,7 @@ const Overlay = () => {
 
     return (
         <div
-            className="fixed top-2 right-2 z-[999999] rounded-lg bg-gray-900 text-white text-xs px-2 py-1 shadow-lg"
+            className="fixed top-2 right-2 z-999 rounded-lg bg-gray-900 text-white text-xs px-2 py-1 shadow-lg"
             style={{ opacity: 0.9 }}>
             Background set to {bg}
         </div>

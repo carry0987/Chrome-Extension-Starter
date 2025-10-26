@@ -143,10 +143,7 @@ describe('createTypedStorage', () => {
 
             await kv.set('local', 'theme', 'dark');
 
-            expect(mockStorageAreas.local.set).toHaveBeenCalledWith(
-                { theme: 'dark' },
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.local.set).toHaveBeenCalledWith({ theme: 'dark' }, expect.any(Function));
         });
 
         it('should set value in sync storage', async () => {
@@ -156,10 +153,7 @@ describe('createTypedStorage', () => {
 
             await kv.set('sync', 'username', 'newuser');
 
-            expect(mockStorageAreas.sync.set).toHaveBeenCalledWith(
-                { username: 'newuser' },
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.sync.set).toHaveBeenCalledWith({ username: 'newuser' }, expect.any(Function));
         });
 
         it('should set value in session storage', async () => {
@@ -169,10 +163,7 @@ describe('createTypedStorage', () => {
 
             await kv.set('session', 'token', 'xyz789');
 
-            expect(mockStorageAreas.session.set).toHaveBeenCalledWith(
-                { token: 'xyz789' },
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.session.set).toHaveBeenCalledWith({ token: 'xyz789' }, expect.any(Function));
         });
     });
 
@@ -184,10 +175,7 @@ describe('createTypedStorage', () => {
 
             await kv.setAll('local', { theme: 'dark', count: 10 });
 
-            expect(mockStorageAreas.local.set).toHaveBeenCalledWith(
-                { theme: 'dark', count: 10 },
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.local.set).toHaveBeenCalledWith({ theme: 'dark', count: 10 }, expect.any(Function));
         });
 
         it('should set multiple items in sync storage', async () => {
@@ -212,10 +200,7 @@ describe('createTypedStorage', () => {
 
             await kv.remove('local', 'theme');
 
-            expect(mockStorageAreas.local.remove).toHaveBeenCalledWith(
-                ['theme'],
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.local.remove).toHaveBeenCalledWith(['theme'], expect.any(Function));
         });
 
         it('should remove multiple keys from sync storage', async () => {
@@ -225,10 +210,7 @@ describe('createTypedStorage', () => {
 
             await kv.remove('sync', ['username', 'enabled']);
 
-            expect(mockStorageAreas.sync.remove).toHaveBeenCalledWith(
-                ['username', 'enabled'],
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.sync.remove).toHaveBeenCalledWith(['username', 'enabled'], expect.any(Function));
         });
 
         it('should remove key from session storage', async () => {
@@ -238,10 +220,7 @@ describe('createTypedStorage', () => {
 
             await kv.remove('session', 'token');
 
-            expect(mockStorageAreas.session.remove).toHaveBeenCalledWith(
-                ['token'],
-                expect.any(Function)
-            );
+            expect(mockStorageAreas.session.remove).toHaveBeenCalledWith(['token'], expect.any(Function));
         });
     });
 });

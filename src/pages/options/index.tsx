@@ -74,11 +74,10 @@ const Options = () => {
                         <label className="block mb-1 text-sm font-medium text-gray-600 dark:text-gray-300">
                             Favorite color
                         </label>
-                        <select 
-                            className="input" 
-                            value={settings.favoriteColor} 
-                            onChange={(e) => setSettings({ ...settings, favoriteColor: e.currentTarget.value })}
-                        >
+                        <select
+                            className="input"
+                            value={settings.favoriteColor}
+                            onChange={(e) => setSettings({ ...settings, favoriteColor: e.currentTarget.value })}>
                             <option value="red">Red</option>
                             <option value="green">Green</option>
                             <option value="blue">Blue</option>

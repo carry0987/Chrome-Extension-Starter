@@ -9,7 +9,7 @@ export const ALARMS = {
 
 export enum MSG {
     CHANGE_BG = 'CHANGE_BG'
-};
+}
 
 export const MESSAGE_SPEC = {
     // example: provide strict typing for CHANGE_BG

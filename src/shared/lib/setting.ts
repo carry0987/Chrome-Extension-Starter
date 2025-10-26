@@ -18,14 +18,14 @@ export interface ISettingManager<T = Record<string, unknown>> {
 /**
  * Generic Settings Manager - manages extension settings in chrome.storage
  * @template T - The type of settings object your extension uses
- * 
+ *
  * @example
  * ```typescript
  * interface MySettings {
  *   theme: string;
  *   enabled: boolean;
  * }
- * 
+ *
  * const manager = new SettingManager<MySettings>(
  *   '1.0.0',
  *   () => ({ theme: 'dark', enabled: true })
@@ -119,4 +119,3 @@ export class SettingManager<T = Record<string, unknown>> implements ISettingMana
         }
     }
 }
-

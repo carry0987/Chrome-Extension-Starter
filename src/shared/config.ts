@@ -25,7 +25,4 @@ const defaultSettings = (): Settings => ({
 
 // ---- Settings Manager Instance ----------------------------------------------
 
-export const settingsManager = new SettingManager<Settings>(
-    CURRENT_VERSION,
-    defaultSettings
-);
+export const settingsManager = new SettingManager<Settings>(CURRENT_VERSION, defaultSettings);

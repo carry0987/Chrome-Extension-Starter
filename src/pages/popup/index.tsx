@@ -51,7 +51,7 @@ const Popup = () => {
             purple: '#a855f7',
             orange: '#f97316'
         };
-        
+
         const res = await bus.sendToActive(MSG.CHANGE_BG, { color: colorMap[color] || '#3b82f6' });
         if (!res?.ok) {
             logger.error('Failed to change background color');
@@ -60,14 +60,14 @@ const Popup = () => {
 
     if (loading) {
         return (
-            <div className="min-w-[360px] bg-white dark:bg-[var(--color-surface-dark)] text-gray-900 dark:text-gray-100 p-5">
+            <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5">
                 <div className="text-center text-sm text-gray-500">Loading settings...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-w-[360px] bg-white dark:bg-[var(--color-surface-dark)] text-gray-900 dark:text-gray-100 p-5 space-y-4">
+        <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5 space-y-4">
             <header className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold">Extension Popup</h1>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{new Date().toLocaleTimeString()}</span>
@@ -80,7 +80,7 @@ const Popup = () => {
                 <div className="text-sm">
                     <span className="font-medium">Counter:</span> {count}
                 </div>
-                
+
                 {settings && (
                     <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
                         <div className="text-sm font-medium mb-2">Your Settings:</div>
@@ -102,11 +102,10 @@ const Popup = () => {
                 <button onClick={() => setCount((c) => c + 1)} className="btn-primary">
                     Count +1
                 </button>
-                <button 
-                    onClick={changeBackground} 
+                <button
+                    onClick={changeBackground}
                     className="btn-secondary"
-                    title="Change background to your favorite color"
-                >
+                    title="Change background to your favorite color">
                     Change BG
                 </button>
             </section>
