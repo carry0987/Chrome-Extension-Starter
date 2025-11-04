@@ -11,6 +11,9 @@ importers:
       preact:
         specifier: ^10.27.2
         version: 10.27.2
+      tailgrids:
+        specifier: ^2.3.0
+        version: 2.3.0
     devDependencies:
       '@carry0987/utils':
         specifier: ^3.9.1
@@ -1283,6 +1286,9 @@ packages:
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
+
+  tailgrids@2.3.0:
+    resolution: {integrity: sha512-34d9Ow5/xstN2YkZq8aQTJislXcbGcj0wiGbCwMyXGxNFRMdkzguIVqOF2xwHPJTBqkHJvoxqcqFBrdVwdPEzw==}
 
   tailwindcss@4.1.16:
     resolution: {integrity: sha512-pONL5awpaQX4LN5eiv7moSiSPd/DLDzKVRJz8Q9PgzmAdd1R4307GQS2ZpfiN7ZmekdQrfhZZiSE5jkLR4WNaA==}
@@ -2652,6 +2658,8 @@ snapshots:
       has-flag: 4.0.0
 
   symbol-tree@3.2.4: {}
+
+  tailgrids@2.3.0: {}
 
   tailwindcss@4.1.16: {}
 

@@ -1,4 +1,5 @@
 import { settingsManager, type Settings } from '@/shared/config';
+import { ToggleInput } from '@/shared/components';
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -88,13 +89,11 @@ const Options = () => {
                     </div>
 
                     <label className="flex items-center gap-2 text-sm">
-                        <input
-                            type="checkbox"
+                        <ToggleInput
+                            label="I like colors."
                             checked={settings.likesColor}
-                            onChange={(e) => setSettings({ ...settings, likesColor: e.currentTarget.checked })}
-                            className="size-4 accent-primary"
+                            onChange={(checked) => setSettings({ ...settings, likesColor: checked })}
                         />
-                        <span>I like colors.</span>
                     </label>
                 </section>
 
