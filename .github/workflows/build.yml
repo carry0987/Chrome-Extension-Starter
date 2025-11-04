@@ -54,12 +54,11 @@ jobs:
       - name: Build extension
         run: pnpm run build:prod
 
-      - name: Upload extension artifact
-        uses: actions/upload-artifact@v5
-        with:
-          name: chrome-extension
-          path: dist/*
-          retention-days: 30
+      - name: Create extension archive
+        run: |
+          cd dist
+          zip -r ../chrome-extension-starter-${{ needs.check-commit.outputs.version }}.zip .
+          cd ..
 
       - name: Create Release
         uses: ncipollo/release-action@v1
@@ -69,5 +68,6 @@ jobs:
           name: ${{ needs.check-commit.outputs.version }}
           body: |
             Bump to version ${{ needs.check-commit.outputs.version }}
+          artifacts: chrome-extension-starter-${{ needs.check-commit.outputs.version }}.zip
           draft: false
           omitDraftDuringUpdate: true
