@@ -38,16 +38,16 @@
   },
   "devDependencies": {
     "@carry0987/utils": "^3.9.1",
-    "@rsbuild/core": "^1.5.17",
-    "@rsbuild/plugin-preact": "^1.5.2",
+    "@rsbuild/core": "^1.6.1",
+    "@rsbuild/plugin-preact": "^1.6.0",
     "@tailwindcss/postcss": "^4.1.16",
     "@testing-library/preact": "^3.2.4",
-    "@types/chrome": "^0.1.24",
-    "@types/node": "^24.9.1",
-    "@vitest/coverage-v8": "4.0.3",
-    "jsdom": "^27.0.1",
+    "@types/chrome": "^0.1.27",
+    "@types/node": "^24.10.0",
+    "@vitest/coverage-v8": "4.0.6",
+    "jsdom": "^27.1.0",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.16",
-    "vitest": "^4.0.3"
+    "vitest": "^4.0.6"
   }
 }
