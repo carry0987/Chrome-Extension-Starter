@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { SettingManager } from '@/shared/lib/setting';
+import type { Settings } from '@/shared/config';
 
 // Mock chrome.storage API
 const mockStorage = {
@@ -14,13 +15,15 @@ global.chrome = {
     storage: mockStorage
 } as any;
 
-interface TestSettings {
+interface TestSettings extends Settings {
     theme: string;
     enabled: boolean;
     count: number;
 }
 
 const defaultSettings = (): TestSettings => ({
+    favoriteColor: 'blue',
+    likesColor: true,
     theme: 'dark',
     enabled: true,
     count: 0
@@ -34,11 +37,11 @@ describe('SettingManager', () => {
         manager = new SettingManager<TestSettings>('1.0.0', defaultSettings);
     });
 
-    describe('init()', () => {
-        it('should initialize with default settings', async () => {
+    describe('reset()', () => {
+        it('should reset settings to defaults', async () => {
             mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
 
-            const result = await manager.init();
+            const result = await manager.reset();
 
             expect(result).toEqual(defaultSettings());
             expect(mockStorage.sync.set).toHaveBeenCalledWith(
@@ -118,6 +121,8 @@ describe('SettingManager', () => {
     describe('save()', () => {
         it('should save settings to sync storage', async () => {
             const newSettings: TestSettings = {
+                favoriteColor: 'red',
+                likesColor: true,
                 theme: 'light',
                 enabled: false,
                 count: 10
@@ -130,57 +135,49 @@ describe('SettingManager', () => {
         });
     });
 
-    describe('isInit()', () => {
-        it('should return true if version exists', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
-                callback?.({ version: '1.0.0' });
-            });
+    describe('migrate()', () => {
+        it('should return settings as-is by default', async () => {
+            const currentSettings: TestSettings = {
+                favoriteColor: 'red',
+                likesColor: true,
+                theme: 'light',
+                enabled: false,
+                count: 5
+            };
 
-            const result = await manager.isInit();
+            const result = await manager.migrate(currentSettings);
 
-            expect(result).toBe(true);
+            expect(result).toEqual(currentSettings);
         });
 
-        it('should return false if version does not exist', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
-                callback?.({});
+        it('should allow custom migration in subclass', async () => {
+            class CustomSettingManager extends SettingManager<TestSettings> {
+                async migrate(current: TestSettings): Promise<TestSettings> {
+                    return {
+                        ...current,
+                        count: current.count + 10
+                    };
+                }
+            }
+
+            const customManager = new CustomSettingManager('2.0.0', defaultSettings);
+            const currentSettings: TestSettings = {
+                favoriteColor: 'red',
+                likesColor: true,
+                theme: 'light',
+                enabled: false,
+                count: 5
+            };
+
+            const result = await customManager.migrate(currentSettings);
+
+            expect(result).toEqual({
+                favoriteColor: 'red',
+                likesColor: true,
+                theme: 'light',
+                enabled: false,
+                count: 15
             });
-
-            const result = await manager.isInit();
-
-            expect(result).toBe(false);
-        });
-    });
-
-    describe('isLatest()', () => {
-        it('should return true if versions match', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
-                callback?.({ version: '1.0.0' });
-            });
-
-            const result = await manager.isLatest();
-
-            expect(result).toBe(true);
-        });
-
-        it('should return false if versions do not match', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
-                callback?.({ version: '0.9.0' });
-            });
-
-            const result = await manager.isLatest();
-
-            expect(result).toBe(false);
-        });
-
-        it('should return false if version does not exist', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
-                callback?.({});
-            });
-
-            const result = await manager.isLatest();
-
-            expect(result).toBe(false);
         });
     });
 
