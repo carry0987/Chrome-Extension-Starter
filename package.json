@@ -24,6 +24,7 @@
     "typescript",
     "preact",
     "tailwindcss",
+    "tailgrids",
     "vitest",
     "rsbuild"
   ],
