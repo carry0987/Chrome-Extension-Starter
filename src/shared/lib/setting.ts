@@ -151,7 +151,7 @@ export class SettingManager<T extends Settings = Settings> implements ISettingMa
             const migrated = await this.migrate(current);
 
             await kv.setAll('sync', {
-                settings: migrated as Settings,
+                settings: migrated,
                 version: this.currentVersion
             });
         }
