@@ -63,9 +63,7 @@ const Options = () => {
             <div className="w-full max-w-md card space-y-6">
                 <header>
                     <h1 className="card-header">Extension Options</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Manage your extension preferences.
-                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Manage your extension preferences.</p>
                 </header>
 
                 <section className="space-y-4">
