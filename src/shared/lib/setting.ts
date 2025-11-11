@@ -63,7 +63,7 @@ export class SettingManager<T extends Settings = Settings> implements ISettingMa
 
     /** Save settings to sync storage. */
     async save(settings: T): Promise<void> {
-        await kv.set('sync', 'settings', settings as Settings);
+        await kv.set('sync', 'settings', settings);
     }
 
     /** Whether storage has been initialized at least once. */
@@ -87,7 +87,7 @@ export class SettingManager<T extends Settings = Settings> implements ISettingMa
     private async init(): Promise<T> {
         const s = this.defaultSettings();
         await kv.setAll('sync', {
-            settings: s as Settings,
+            settings: s,
             version: this.currentVersion
         });
 
