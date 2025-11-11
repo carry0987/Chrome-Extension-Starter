@@ -3,8 +3,7 @@ const NS = '[Chrome-Extension-Starter]';
 
 const log = (level: Level, ...args: unknown[]) => {
     const time = new Date().toISOString();
-    // eslint-disable-next-line no-console
-    (console as any)[level]?.(NS, time, ...args);
+    console[level]?.(NS, time, ...args);
 };
 
 export const logger = {

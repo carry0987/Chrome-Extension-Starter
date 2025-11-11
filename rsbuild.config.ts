@@ -1,5 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginPreact } from '@rsbuild/plugin-preact';
+import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 import tailwind from '@tailwindcss/postcss';
 import { createRequire } from 'module';
 
@@ -57,7 +58,7 @@ export default defineConfig({
     environments: {
         // UI/DOM context: popup, options, content script
         web: {
-            plugins: [pluginPreact()],
+            plugins: [pluginPreact(), pluginTypeCheck()],
             source: {
                 entry: {
                     // Each entry becomes js/[name].js after build
@@ -95,6 +96,7 @@ export default defineConfig({
 
         // Worker context: background service worker
         worker: {
+            plugins: [pluginTypeCheck()],
             // No preact plugin needed; it's a plain TS entry
             source: {
                 entry: {

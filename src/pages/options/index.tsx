@@ -1,5 +1,6 @@
 import { settingsManager, type Settings } from '@/shared/config';
 import { ToggleInput } from '@/shared/components';
+import { logger } from '@/shared/lib/logger';
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
@@ -10,7 +11,6 @@ const Options = () => {
     const [settings, setSettings] = useState<Settings | null>(null);
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(true);
-    const [isLatestVersion, setIsLatestVersion] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -18,11 +18,9 @@ const Options = () => {
                 // Ensure settings are initialized
                 await settingsManager.update();
                 const loadedSettings = await settingsManager.load();
-                const latest = await settingsManager.isLatest();
                 setSettings(loadedSettings);
-                setIsLatestVersion(latest);
             } catch (error) {
-                console.error('Failed to load settings:', error);
+                logger.error('Failed to load settings:', error);
                 setStatus('❌ Failed to load settings');
             } finally {
                 setLoading(false);
@@ -39,7 +37,7 @@ const Options = () => {
             const id = window.setTimeout(() => setStatus(''), 1200);
             void id;
         } catch (error) {
-            console.error('Failed to save settings:', error);
+            logger.error('Failed to save settings:', error);
             setStatus('❌ Failed to save settings');
         }
     };
@@ -66,7 +64,7 @@ const Options = () => {
                 <header>
                     <h1 className="card-header">Extension Options</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Manage your extension preferences. Version: {isLatestVersion ? '✅ Latest' : '⚠️ Needs update'}
+                        Manage your extension preferences.
                     </p>
                 </header>
 
