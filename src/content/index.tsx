@@ -1,5 +1,6 @@
 // Content script entry
 import { bus } from '@/shared/lib/messaging';
+import { t } from '@/shared/lib/i18n';
 import { MSG } from '@/shared/constants';
 import { mount } from '@/shared/lib/dom';
 import { render } from 'preact';
@@ -30,7 +31,7 @@ const Overlay = () => {
         <div
             className="fixed top-2 right-2 z-999 rounded-lg bg-gray-900 text-white text-xs px-2 py-1 shadow-lg"
             style={{ opacity: 0.9 }}>
-            Background set to {bg}
+            {t('backgroundChanged', bg)}
         </div>
     );
 };

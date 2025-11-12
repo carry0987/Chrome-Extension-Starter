@@ -1,0 +1,112 @@
+{
+    "extName": {
+        "message": "Chrome Extension Starter",
+        "description": "Extension name"
+    },
+    "extDescription": {
+        "message": "Chrome Extension Starter, using TypeScript, Preact, TailwindCSS, Vitest and RSBuild.",
+        "description": "Extension description"
+    },
+    "popupTitle": {
+        "message": "Extension Popup",
+        "description": "Popup page title"
+    },
+    "optionsTitle": {
+        "message": "Extension Options",
+        "description": "Options page title"
+    },
+    "currentURL": {
+        "message": "Current URL",
+        "description": "Label for current URL"
+    },
+    "clickCount": {
+        "message": "Click count",
+        "description": "Label for click counter"
+    },
+    "clickMe": {
+        "message": "Click me!",
+        "description": "Button text"
+    },
+    "changeBackground": {
+        "message": "Change Background",
+        "description": "Button to change page background"
+    },
+    "loadingSettings": {
+        "message": "Loading settings...",
+        "description": "Loading state message"
+    },
+    "settings": {
+        "message": "Settings",
+        "description": "Settings section title"
+    },
+    "favoriteColor": {
+        "message": "Favorite Color",
+        "description": "Favorite color setting label"
+    },
+    "colorRed": {
+        "message": "Red",
+        "description": "Color option: red"
+    },
+    "colorGreen": {
+        "message": "Green",
+        "description": "Color option: green"
+    },
+    "colorBlue": {
+        "message": "Blue",
+        "description": "Color option: blue"
+    },
+    "colorYellow": {
+        "message": "Yellow",
+        "description": "Color option: yellow"
+    },
+    "colorPurple": {
+        "message": "Purple",
+        "description": "Color option: purple"
+    },
+    "colorOrange": {
+        "message": "Orange",
+        "description": "Color option: orange"
+    },
+    "likesColor": {
+        "message": "I like colors",
+        "description": "Toggle for color preference"
+    },
+    "save": {
+        "message": "Save",
+        "description": "Save button"
+    },
+    "cancel": {
+        "message": "Cancel",
+        "description": "Cancel button"
+    },
+    "saved": {
+        "message": "Saved!",
+        "description": "Save success message"
+    },
+    "error": {
+        "message": "Error",
+        "description": "Error message prefix"
+    },
+    "failedToLoad": {
+        "message": "Failed to load settings",
+        "description": "Error loading settings"
+    },
+    "failedToSave": {
+        "message": "Failed to save settings",
+        "description": "Error saving settings"
+    },
+    "backgroundChanged": {
+        "message": "Background set to $COLOR$",
+        "description": "Message shown when background color changes",
+        "placeholders": {
+            "color": {
+                "content": "$1",
+                "example": "blue"
+            }
+        }
+    },
+    "openPopup": {
+        "message": "Open Extension Popup",
+        "description": "Default title for extension action"
+    }
+}

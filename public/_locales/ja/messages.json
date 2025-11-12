@@ -1,0 +1,112 @@
+{
+    "extName": {
+        "message": "Chrome拡張機能スターター",
+        "description": "拡張機能名"
+    },
+    "extDescription": {
+        "message": "TypeScript、Preact、TailwindCSS、Vitest、RSBuildを使用したChrome拡張機能スターター。",
+        "description": "拡張機能の説明"
+    },
+    "popupTitle": {
+        "message": "拡張機能ポップアップ",
+        "description": "ポップアップページのタイトル"
+    },
+    "optionsTitle": {
+        "message": "拡張機能オプション",
+        "description": "オプションページのタイトル"
+    },
+    "currentURL": {
+        "message": "現在のURL",
+        "description": "現在のURLのラベル"
+    },
+    "clickCount": {
+        "message": "クリック数",
+        "description": "クリックカウンターのラベル"
+    },
+    "clickMe": {
+        "message": "クリックしてください！",
+        "description": "ボタンのテキスト"
+    },
+    "changeBackground": {
+        "message": "背景を変更",
+        "description": "ページの背景を変更するボタン"
+    },
+    "loadingSettings": {
+        "message": "設定を読み込み中...",
+        "description": "読み込み状態のメッセージ"
+    },
+    "settings": {
+        "message": "設定",
+        "description": "設定セクションのタイトル"
+    },
+    "favoriteColor": {
+        "message": "好きな色",
+        "description": "好きな色の設定ラベル"
+    },
+    "colorRed": {
+        "message": "赤",
+        "description": "色のオプション：赤"
+    },
+    "colorGreen": {
+        "message": "緑",
+        "description": "色のオプション：緑"
+    },
+    "colorBlue": {
+        "message": "青",
+        "description": "色のオプション：青"
+    },
+    "colorYellow": {
+        "message": "黄",
+        "description": "色のオプション：黄"
+    },
+    "colorPurple": {
+        "message": "紫",
+        "description": "色のオプション：紫"
+    },
+    "colorOrange": {
+        "message": "オレンジ",
+        "description": "色のオプション：オレンジ"
+    },
+    "likesColor": {
+        "message": "色が好きです",
+        "description": "色の好みのトグル"
+    },
+    "save": {
+        "message": "保存",
+        "description": "保存ボタン"
+    },
+    "cancel": {
+        "message": "キャンセル",
+        "description": "キャンセルボタン"
+    },
+    "saved": {
+        "message": "保存しました！",
+        "description": "保存成功メッセージ"
+    },
+    "error": {
+        "message": "エラー",
+        "description": "エラーメッセージのプレフィックス"
+    },
+    "failedToLoad": {
+        "message": "設定の読み込みに失敗しました",
+        "description": "設定の読み込みエラー"
+    },
+    "failedToSave": {
+        "message": "設定の保存に失敗しました",
+        "description": "設定の保存エラー"
+    },
+    "backgroundChanged": {
+        "message": "背景を$COLOR$に設定しました",
+        "description": "背景色が変更されたときに表示されるメッセージ",
+        "placeholders": {
+            "color": {
+                "content": "$1",
+                "example": "青"
+            }
+        }
+    },
+    "openPopup": {
+        "message": "拡張機能ポップアップを開く",
+        "description": "拡張機能アクションのデフォルトタイトル"
+    }
+}

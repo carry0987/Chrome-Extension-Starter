@@ -1,0 +1,112 @@
+{
+    "extName": {
+        "message": "Chrome 擴充功能起始模板",
+        "description": "擴充功能名稱"
+    },
+    "extDescription": {
+        "message": "使用 TypeScript、Preact、TailwindCSS、Vitest 和 RSBuild 的 Chrome 擴充功能起始模板。",
+        "description": "擴充功能描述"
+    },
+    "popupTitle": {
+        "message": "擴充功能彈出視窗",
+        "description": "彈出視窗標題"
+    },
+    "optionsTitle": {
+        "message": "擴充功能選項",
+        "description": "選項頁面標題"
+    },
+    "currentURL": {
+        "message": "目前網址",
+        "description": "目前網址標籤"
+    },
+    "clickCount": {
+        "message": "點擊次數",
+        "description": "點擊計數器標籤"
+    },
+    "clickMe": {
+        "message": "點我！",
+        "description": "按鈕文字"
+    },
+    "changeBackground": {
+        "message": "變更背景",
+        "description": "變更頁面背景的按鈕"
+    },
+    "loadingSettings": {
+        "message": "載入設定中...",
+        "description": "載入狀態訊息"
+    },
+    "settings": {
+        "message": "設定",
+        "description": "設定區段標題"
+    },
+    "favoriteColor": {
+        "message": "最愛的顏色",
+        "description": "最愛顏色設定標籤"
+    },
+    "colorRed": {
+        "message": "紅色",
+        "description": "顏色選項：紅色"
+    },
+    "colorGreen": {
+        "message": "綠色",
+        "description": "顏色選項：綠色"
+    },
+    "colorBlue": {
+        "message": "藍色",
+        "description": "顏色選項：藍色"
+    },
+    "colorYellow": {
+        "message": "黃色",
+        "description": "顏色選項：黃色"
+    },
+    "colorPurple": {
+        "message": "紫色",
+        "description": "顏色選項：紫色"
+    },
+    "colorOrange": {
+        "message": "橙色",
+        "description": "顏色選項：橙色"
+    },
+    "likesColor": {
+        "message": "我喜歡顏色",
+        "description": "顏色偏好開關"
+    },
+    "save": {
+        "message": "儲存",
+        "description": "儲存按鈕"
+    },
+    "cancel": {
+        "message": "取消",
+        "description": "取消按鈕"
+    },
+    "saved": {
+        "message": "已儲存！",
+        "description": "儲存成功訊息"
+    },
+    "error": {
+        "message": "錯誤",
+        "description": "錯誤訊息前綴"
+    },
+    "failedToLoad": {
+        "message": "載入設定失敗",
+        "description": "載入設定錯誤"
+    },
+    "failedToSave": {
+        "message": "儲存設定失敗",
+        "description": "儲存設定錯誤"
+    },
+    "backgroundChanged": {
+        "message": "背景已設為 $COLOR$",
+        "description": "背景顏色變更時顯示的訊息",
+        "placeholders": {
+            "color": {
+                "content": "$1",
+                "example": "藍色"
+            }
+        }
+    },
+    "openPopup": {
+        "message": "開啟擴充功能彈出視窗",
+        "description": "擴充功能動作的預設標題"
+    }
+}

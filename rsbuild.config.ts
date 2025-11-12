@@ -29,6 +29,7 @@ export default defineConfig({
                             }
                         },
                         { from: 'public/icons', to: 'icons' },
+                        { from: 'public/_locales', to: '_locales' },
                         { from: 'public/assets', to: 'assets', noErrorOnMissing: true }
                     ]
                 })

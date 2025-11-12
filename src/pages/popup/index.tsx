@@ -1,5 +1,6 @@
 import { bus } from '@/shared/lib/messaging';
 import { logger } from '@/shared/lib/logger';
+import { t } from '@/shared/lib/i18n';
 import { MSG } from '@/shared/constants';
 import { settingsManager, type Settings } from '@/shared/config';
 import { render } from 'preact';
@@ -61,7 +62,7 @@ const Popup = () => {
     if (loading) {
         return (
             <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5">
-                <div className="text-center text-sm text-gray-500">Loading settings...</div>
+                <div className="text-center text-sm text-gray-500">{t('loadingSettings')}</div>
             </div>
         );
     }
@@ -69,29 +70,34 @@ const Popup = () => {
     return (
         <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5 space-y-4">
             <header className="flex items-center justify-between">
-                <h1 className="text-lg font-semibold">Extension Popup</h1>
+                <h1 className="text-lg font-semibold">{t('popupTitle')}</h1>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{new Date().toLocaleTimeString()}</span>
             </header>
 
             <section className="space-y-2">
                 <div className="text-sm text-gray-600 dark:text-gray-300">
-                    <span className="font-medium">Current URL:</span> <span className="break-all">{currentURL}</span>
+                    <span className="font-medium">{t('currentURL')}:</span>{' '}
+                    <span className="break-all">{currentURL}</span>
                 </div>
                 <div className="text-sm">
-                    <span className="font-medium">Counter:</span> {count}
+                    <span className="font-medium">{t('clickCount')}:</span> {count}
                 </div>
 
                 {settings && (
                     <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-                        <div className="text-sm font-medium mb-2">Your Settings:</div>
+                        <div className="text-sm font-medium mb-2">{t('settings')}:</div>
                         <div className="space-y-1 text-sm">
                             <div className="flex items-center gap-2">
-                                <span className="text-gray-600 dark:text-gray-400">Favorite Color:</span>
-                                <span className="font-medium capitalize">{settings.favoriteColor}</span>
+                                <span className="text-gray-600 dark:text-gray-400">{t('favoriteColor')}:</span>
+                                <span className="font-medium capitalize">
+                                    {t(
+                                        `color${settings.favoriteColor.charAt(0).toUpperCase() + settings.favoriteColor.slice(1)}`
+                                    )}
+                                </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-gray-600 dark:text-gray-400">Likes Color:</span>
-                                <span className="font-medium">{settings.likesColor ? '✅ Yes' : '❌ No'}</span>
+                                <span className="text-gray-600 dark:text-gray-400">{t('likesColor')}:</span>
+                                <span className="font-medium">{settings.likesColor ? '✅' : '❌'}</span>
                             </div>
                         </div>
                     </div>
@@ -100,13 +106,10 @@ const Popup = () => {
 
             <section className="flex justify-end gap-2">
                 <button onClick={() => setCount((c) => c + 1)} className="btn-primary">
-                    Count +1
+                    {t('clickMe')}
                 </button>
-                <button
-                    onClick={changeBackground}
-                    className="btn-secondary"
-                    title="Change background to your favorite color">
-                    Change BG
+                <button onClick={changeBackground} className="btn-secondary" title={t('changeBackground')}>
+                    {t('changeBackground')}
                 </button>
             </section>
         </div>
