@@ -96,7 +96,7 @@ global.chrome = {
 } as any;
 
 // Import after mocking
-import { runMigrations, getMigrationStatus, rollbackVersion } from '@/background/migration';
+import { runMigrations, getMigrationStatus, rollbackVersion } from '@/shared/lib/migration';
 
 describe('Migration System', () => {
     beforeEach(() => {
