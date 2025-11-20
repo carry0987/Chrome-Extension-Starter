@@ -1,13 +1,21 @@
 import { kv } from './storage';
 import { logger } from './logger';
+import { customMigrations } from '@/shared/config';
 
-// Migration function type
-type MigrationFn = () => Promise<void>;
+/**
+ * Migration function type
+ */
+export type MigrationFn = () => Promise<void>;
 
-// Version format: "x.y.z"
-type Version = string;
+/**
+ * Version format: "x.y.z"
+ */
+export type Version = string;
 
-interface Migration {
+/**
+ * Migration definition interface
+ */
+export interface Migration {
     version: Version;
     description: string;
     migrate: MigrationFn;
@@ -40,56 +48,11 @@ const compareVersions = (a: Version, b: Version): number => {
 };
 
 /**
- * Define all migrations here in chronological order
- * Each migration should be idempotent (safe to run multiple times)
+ * Get migrations from config
  */
-const migrations: Migration[] = [
-    {
-        version: '1.0.0',
-        description: 'Initial version - set default values',
-        migrate: async () => {
-            // Set initial default values if not exist
-            const darkMode = await kv.get('local', 'darkMode');
-            if (darkMode === undefined) {
-                await kv.set('local', 'darkMode', false);
-                logger.info('[migration] Set default darkMode to false');
-            }
-
-            const username = await kv.get('local', 'username');
-            if (username === undefined) {
-                await kv.set('local', 'username', 'Guest');
-                logger.info('[migration] Set default username to Guest');
-            }
-        }
-    },
-    {
-        version: '1.1.0',
-        description: 'Add settings structure',
-        migrate: async () => {
-            // Example: migrate old flat settings to new nested structure
-            const settings = await kv.get('sync', 'settings');
-            if (settings === undefined) {
-                await kv.set('sync', 'settings', {
-                    notifications: true,
-                    autoSync: true
-                });
-                logger.info('[migration] Initialized settings structure');
-            }
-        }
-    },
-    {
-        version: '1.2.0',
-        description: 'Clean up deprecated storage keys',
-        migrate: async () => {
-            // Example: remove old keys that are no longer used
-            // await kv.remove('local', 'oldDeprecatedKey' as any);
-            logger.info('[migration] Cleaned up deprecated keys for v1.2.0');
-        }
-    }
-
-    // Add more migrations as your extension evolves
-    // Always increment version and add new migration at the end
-];
+const getMigrations = (): Migration[] => {
+    return customMigrations;
+};
 
 /**
  * Get current stored version
@@ -111,8 +74,31 @@ const getCurrentVersion = (): Version => {
 export const runMigrations = async (): Promise<void> => {
     const currentVersion = getCurrentVersion();
     const storedVersion = await getStoredVersion();
+    const migrations = getMigrations();
 
     logger.info(`[migration] Current version: ${currentVersion}, Stored version: ${storedVersion || 'none'}`);
+
+    // If no migrations defined, only update version
+    if (migrations.length === 0) {
+        logger.info('[migration] No custom migrations defined, only tracking version');
+
+        // Check for downgrade even when no migrations
+        if (storedVersion && compareVersions(storedVersion, currentVersion) > 0) {
+            logger.warn(
+                `[migration] Stored version (${storedVersion}) is newer than current (${currentVersion}). Possible downgrade detected.`
+            );
+            return;
+        }
+
+        if (!storedVersion || compareVersions(storedVersion, currentVersion) !== 0) {
+            await kv.set('sync', 'version', currentVersion);
+            logger.info(`[migration] Version updated to ${currentVersion}`);
+        } else {
+            logger.info('[migration] Already at current version');
+        }
+
+        return;
+    }
 
     // If no stored version, this is a fresh install
     if (!storedVersion) {
@@ -140,6 +126,7 @@ export const runMigrations = async (): Promise<void> => {
     // If stored version is same as current, no migration needed
     if (compareVersions(storedVersion, currentVersion) === 0) {
         logger.info('[migration] Already at current version, no migration needed');
+
         return;
     }
 
@@ -148,6 +135,7 @@ export const runMigrations = async (): Promise<void> => {
         logger.warn(
             `[migration] Stored version (${storedVersion}) is newer than current (${currentVersion}). Possible downgrade detected.`
         );
+
         return;
     }
 
@@ -197,6 +185,7 @@ export const rollbackVersion = async (targetVersion: Version): Promise<void> => 
 export const getMigrationStatus = async () => {
     const currentVersion = getCurrentVersion();
     const storedVersion = await getStoredVersion();
+    const migrations = getMigrations();
 
     return {
         currentVersion,

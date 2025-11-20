@@ -96,7 +96,13 @@ global.chrome = {
 } as any;
 
 // Import after mocking
-import { runMigrations, getMigrationStatus, rollbackVersion } from '@/shared/lib/migration';
+import { runMigrations, getMigrationStatus, rollbackVersion, type Migration } from '@/shared/lib/migration';
+
+// Mock customMigrations
+vi.mock('@/shared/config', () => ({
+    customMigrations: [] as Migration[],
+    settingsManager: {} as any
+}));
 
 describe('Migration System', () => {
     beforeEach(() => {
@@ -106,8 +112,8 @@ describe('Migration System', () => {
         vi.clearAllMocks();
     });
 
-    describe('Fresh Install', () => {
-        it('should run all migrations on fresh install', async () => {
+    describe('Fresh Install (No Custom Migrations)', () => {
+        it('should only track version when no migrations defined', async () => {
             // No stored version
             mockManifest.version = '1.2.0';
 
@@ -116,18 +122,15 @@ describe('Migration System', () => {
             // Check that version was stored
             expect(mockStorage.sync.get('version')).toBe('1.2.0');
 
-            // Check that default values were set
-            expect(mockStorage.local.get('darkMode')).toBe(false);
-            expect(mockStorage.local.get('username')).toBe('Guest');
-            expect(mockStorage.sync.get('settings')).toEqual({
-                notifications: true,
-                autoSync: true
-            });
+            // No migrations should have run
+            expect(mockStorage.local.get('darkMode')).toBeUndefined();
+            expect(mockStorage.local.get('username')).toBeUndefined();
+            expect(mockStorage.sync.get('settings')).toBeUndefined();
         });
     });
 
-    describe('Version Upgrade', () => {
-        it('should run pending migrations on upgrade', async () => {
+    describe('Version Upgrade (No Custom Migrations)', () => {
+        it('should only update version on upgrade when no migrations defined', async () => {
             // Simulate existing version
             mockStorage.sync.set('version', '1.0.0');
             mockManifest.version = '1.2.0';
@@ -137,23 +140,22 @@ describe('Migration System', () => {
             // Should update to current version
             expect(mockStorage.sync.get('version')).toBe('1.2.0');
 
-            // Should have run migrations 1.1.0 and 1.2.0 (but not 1.0.0)
-            expect(mockStorage.sync.get('settings')).toEqual({
-                notifications: true,
-                autoSync: true
-            });
+            // No migrations should have run
+            expect(mockStorage.sync.get('settings')).toBeUndefined();
         });
 
-        it('should skip already-run migrations', async () => {
-            // Already at v1.1.0
+        it('should preserve existing data when updating version', async () => {
+            // Already at v1.1.0 with existing data
             mockStorage.sync.set('version', '1.1.0');
-            mockStorage.local.set('darkMode', true); // Already set
+            mockStorage.local.set('darkMode', true);
+            mockStorage.local.set('customData', 'test');
             mockManifest.version = '1.2.0';
 
             await runMigrations();
 
-            // Should not override existing values from old migrations
+            // Should not modify existing data
             expect(mockStorage.local.get('darkMode')).toBe(true);
+            expect(mockStorage.local.get('customData')).toBe('test');
             expect(mockStorage.sync.get('version')).toBe('1.2.0');
         });
     });
@@ -184,7 +186,7 @@ describe('Migration System', () => {
     });
 
     describe('Migration Status', () => {
-        it('should return correct migration status', async () => {
+        it('should return correct migration status with no custom migrations', async () => {
             mockStorage.sync.set('version', '1.0.0');
             mockManifest.version = '1.2.0';
 
@@ -193,8 +195,7 @@ describe('Migration System', () => {
             expect(status.currentVersion).toBe('1.2.0');
             expect(status.storedVersion).toBe('1.0.0');
             expect(status.needsMigration).toBe(true);
-            expect(status.availableMigrations).toHaveLength(3);
-            expect(status.availableMigrations[0].version).toBe('1.0.0');
+            expect(status.availableMigrations).toHaveLength(0); // No custom migrations
         });
 
         it('should indicate no migration needed when versions match', async () => {
@@ -204,6 +205,7 @@ describe('Migration System', () => {
             const status = await getMigrationStatus();
 
             expect(status.needsMigration).toBe(false);
+            expect(status.availableMigrations).toHaveLength(0);
         });
     });
 
@@ -217,14 +219,12 @@ describe('Migration System', () => {
         });
     });
 
-    describe('Migration Error Handling', () => {
-        it('should stop on migration error', async () => {
+    describe('No Custom Migrations Behavior', () => {
+        it('should run successfully without any custom migrations', async () => {
             mockManifest.version = '1.2.0';
 
-            // Mock a failing migration by causing an error
-            // This would require restructuring the migration module to allow injection
-            // For now, we verify that runMigrations can be called without throwing
             await expect(runMigrations()).resolves.not.toThrow();
+            expect(mockStorage.sync.get('version')).toBe('1.2.0');
         });
     });
 
@@ -234,21 +234,14 @@ describe('Migration System', () => {
 
             // Run migrations twice
             await runMigrations();
-            const firstRun = {
-                darkMode: mockStorage.local.get('darkMode'),
-                username: mockStorage.local.get('username'),
-                settings: mockStorage.sync.get('settings')
-            };
+            const firstVersion = mockStorage.sync.get('version');
 
             await runMigrations();
-            const secondRun = {
-                darkMode: mockStorage.local.get('darkMode'),
-                username: mockStorage.local.get('username'),
-                settings: mockStorage.sync.get('settings')
-            };
+            const secondVersion = mockStorage.sync.get('version');
 
-            // Results should be identical
-            expect(secondRun).toEqual(firstRun);
+            // Version should remain consistent
+            expect(secondVersion).toBe(firstVersion);
+            expect(secondVersion).toBe('1.2.0');
         });
     });
 });
