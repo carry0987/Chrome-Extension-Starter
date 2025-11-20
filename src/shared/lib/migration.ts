@@ -1,5 +1,5 @@
-import { kv } from '@/shared/lib/storage';
-import { logger } from '@/shared/lib/logger';
+import { kv } from './storage';
+import { logger } from './logger';
 
 // Migration function type
 type MigrationFn = () => Promise<void>;
