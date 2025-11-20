@@ -16,8 +16,6 @@ const Options = () => {
     useEffect(() => {
         (async () => {
             try {
-                // Ensure settings are initialized
-                await settingsManager.update();
                 const loadedSettings = await settingsManager.load();
                 setSettings(loadedSettings);
             } catch (error) {

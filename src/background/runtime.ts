@@ -1,5 +1,6 @@
 import { logger } from '@/shared/lib/logger';
 import { RESTRICTED } from '@/shared/constants';
+import { runMigrations } from './migration';
 
 /** Check if URL should disable popup/action */
 const isRestrictedUrl = (raw?: string | null) => {
@@ -64,8 +65,20 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 });
 
 // On install: set default popup for all existing tabs
-chrome.runtime.onInstalled.addListener(async () => {
-    logger.info('[background] Extension installed');
+chrome.runtime.onInstalled.addListener(async (details) => {
+    logger.info(`[background] Extension installed (reason: ${details.reason})`);
+
+    // Run migrations on install or update
+    if (details.reason === 'install' || details.reason === 'update') {
+        try {
+            await runMigrations();
+        } catch (error) {
+            logger.error('[background] Migration failed:', error);
+            // Don't throw - allow extension to continue with potentially incomplete migration
+        }
+    }
+
+    // Apply action policy to all existing tabs
     const tabs = await chrome.tabs.query({});
     await Promise.all(tabs.map((t) => applyActionPolicy(t.id!, t.url)));
 });

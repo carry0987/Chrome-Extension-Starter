@@ -29,7 +29,6 @@ const Popup = () => {
     useEffect(() => {
         (async () => {
             try {
-                await settingsManager.update();
                 const loadedSettings = await settingsManager.load();
                 setSettings(loadedSettings);
             } catch (error) {

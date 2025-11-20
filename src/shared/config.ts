@@ -1,9 +1,5 @@
 import { SettingManager } from '@/shared/lib/setting';
 
-// ---- Version ----------------------------------------------------------------
-
-export const CURRENT_VERSION = '1' as const;
-
 // ---- Application-specific Types ---------------------------------------------
 
 /**
@@ -25,4 +21,8 @@ const defaultSettings = (): Settings => ({
 
 // ---- Settings Manager Instance ----------------------------------------------
 
-export const settingsManager = new SettingManager<Settings>(CURRENT_VERSION, defaultSettings);
+/**
+ * Global settings manager instance.
+ * Note: Version management and migrations are handled by background/migration.ts
+ */
+export const settingsManager = new SettingManager<Settings>(defaultSettings);

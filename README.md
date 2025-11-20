@@ -51,6 +51,7 @@ Designed for fast development, clean architecture, and strongly typed communicat
   * `storage.ts` → **Typed Chrome Storage API** supporting `local`, `sync`, `managed`, and `session`
   * `logger.ts` → Lightweight structured logger
   * `dom.ts` → Safe DOM mounting helpers
+  * `migration.ts` → **Version migration system** for seamless storage schema evolution
 
 * **Constants & Types**
 
@@ -60,6 +61,7 @@ Designed for fast development, clean architecture, and strongly typed communicat
 * **Tests (`__tests__/`)**
 
   * `messaging.test.ts` → Verifies async message bridge logic
+  * `migration.test.ts` → Tests version migration scenarios
   * Example tests for storage utilities
 
 ---
@@ -97,6 +99,38 @@ Designed for fast development, clean architecture, and strongly typed communicat
   const orgPolicy = await kv.get('managed', 'orgEnabled', false);
   ```
 
+* **🔄 Version Migration System (`migration.ts`)**
+  Automatically handles storage schema changes across versions:
+
+  ```ts
+  // Runs automatically on extension install/update
+  // Defined in background/migration.ts
+  const migrations: Migration[] = [
+    {
+      version: '1.0.0',
+      description: 'Initial version - set default values',
+      migrate: async () => {
+        await kv.set('local', 'darkMode', false);
+        await kv.set('local', 'username', 'Guest');
+      }
+    },
+    {
+      version: '1.1.0',
+      description: 'Add settings structure',
+      migrate: async () => {
+        await kv.set('sync', 'settings', { notifications: true });
+      }
+    }
+  ];
+  ```
+
+  * **Fresh Install**: Runs all migrations up to current version
+  * **Version Upgrade**: Runs only pending migrations
+  * **Idempotent**: Safe to run multiple times
+  * **Type-Safe**: Leverages typed storage API
+  
+  📖 For detailed migration guide, see [docs/MIGRATION.md](docs/MIGRATION.md)
+
 * **🧩 Overlay Demo (Content Script)**
 
   * Listens to `CHANGE_BG`
@@ -112,6 +146,7 @@ src/
 ├── background/      # Background service worker logic
 │   ├── alarms.ts    # Optional periodic jobs
 │   ├── index.ts     # Main background entry
+│   ├── migration.ts # Version migration system
 │   └── runtime.ts   # Lifecycle + tab action policies
 ├── content/         # Scripts injected into web pages
 │   ├── index.tsx    # Overlay UI (Preact)
