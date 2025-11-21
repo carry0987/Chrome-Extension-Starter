@@ -44,6 +44,7 @@ const compareVersions = (a: Version, b: Version): number => {
         if (aVal < bVal) return -1;
         if (aVal > bVal) return 1;
     }
+
     return 0;
 };
 
@@ -87,6 +88,7 @@ export const runMigrations = async (): Promise<void> => {
             logger.warn(
                 `[migration] Stored version (${storedVersion}) is newer than current (${currentVersion}). Possible downgrade detected.`
             );
+
             return;
         }
 
@@ -120,6 +122,7 @@ export const runMigrations = async (): Promise<void> => {
         // Store current version
         await kv.set('sync', 'version', currentVersion);
         logger.info(`[migration] Completed fresh install migrations, version set to ${currentVersion}`);
+
         return;
     }
 
