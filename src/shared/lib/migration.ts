@@ -3,14 +3,32 @@ import { logger } from './logger';
 import { customMigrations } from '@/shared/config';
 
 /**
- * Migration function type
- */
-export type MigrationFn = () => Promise<void>;
-
-/**
  * Version format: "x.y.z"
  */
 export type Version = string;
+
+/**
+ * Migration context provided to migration functions
+ */
+export interface MigrationContext {
+    currentVersion: Version;
+    storedVersion: Version | null;
+    getStorage: <T>(area: 'sync' | 'local', key: string) => Promise<T | undefined>;
+}
+
+/**
+ * Migration result - what to update in storage
+ */
+export interface MigrationResult {
+    sync?: Record<string, any>;
+    local?: Record<string, any>;
+}
+
+/**
+ * Migration function type
+ * Receives context and returns storage updates to apply
+ */
+export type MigrationFn = (context: MigrationContext) => Promise<void | MigrationResult>;
 
 /**
  * Migration definition interface
@@ -102,6 +120,15 @@ export const runMigrations = async (): Promise<void> => {
         return;
     }
 
+    // Create migration context
+    const context: MigrationContext = {
+        currentVersion,
+        storedVersion,
+        getStorage: async <T>(area: 'sync' | 'local', key: string) => {
+            return (await kv.get(area as any, key as any)) as T | undefined;
+        }
+    };
+
     // If no stored version, this is a fresh install
     if (!storedVersion) {
         logger.info('[migration] Fresh install detected');
@@ -111,7 +138,21 @@ export const runMigrations = async (): Promise<void> => {
             if (compareVersions(migration.version, currentVersion) <= 0) {
                 try {
                     logger.info(`[migration] Running: ${migration.version} - ${migration.description}`);
-                    await migration.migrate();
+                    const result = await migration.migrate(context);
+
+                    // Apply migration results if returned
+                    if (result) {
+                        if (result.sync) {
+                            for (const [key, value] of Object.entries(result.sync)) {
+                                await kv.set('sync', key as any, value);
+                            }
+                        }
+                        if (result.local) {
+                            for (const [key, value] of Object.entries(result.local)) {
+                                await kv.set('local', key as any, value);
+                            }
+                        }
+                    }
                 } catch (error) {
                     logger.error(`[migration] Failed at ${migration.version}:`, error);
                     throw error; // Stop migration on error
@@ -159,7 +200,21 @@ export const runMigrations = async (): Promise<void> => {
         // Run this migration
         try {
             logger.info(`[migration] Running: ${migration.version} - ${migration.description}`);
-            await migration.migrate();
+            const result = await migration.migrate(context);
+
+            // Apply migration results if returned
+            if (result) {
+                if (result.sync) {
+                    for (const [key, value] of Object.entries(result.sync)) {
+                        await kv.set('sync', key as any, value);
+                    }
+                }
+                if (result.local) {
+                    for (const [key, value] of Object.entries(result.local)) {
+                        await kv.set('local', key as any, value);
+                    }
+                }
+            }
         } catch (error) {
             logger.error(`[migration] Failed at ${migration.version}:`, error);
             throw error; // Stop migration on error
