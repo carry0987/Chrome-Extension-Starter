@@ -18,7 +18,6 @@ const config: Config = {
     organizationName: 'carry0987', // Usually your GitHub org/user name.
     projectName: 'Chrome-Extension-Starter', // Usually your repo name.
 
-    // The broken links detection is only available for a production build
     onBrokenLinks: 'throw',
 
     // Global markdown configuration
@@ -47,17 +46,11 @@ const config: Config = {
                 },
                 docs: {
                     sidebarPath: './sidebars.ts',
-                    // Please change this to your repo.
                     showLastUpdateAuthor: true,
                     showLastUpdateTime: true,
                     // Remove this to remove the "edit this page" links.
-                    editUrl: 'https://github.com/carry0987/Docusaurus-Test/tree/master/',
-                },
-                blog: {
-                    showReadingTime: true,
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
-                    editUrl: 'https://github.com/carry0987/Docusaurus-Test/tree/master/',
+                    editUrl:
+                        'https://github.com/carry0987/Chrome-Extension-Starter/tree/gh-pages/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -67,24 +60,29 @@ const config: Config = {
     ],
 
     themeConfig: {
-        // Replace with your project's social card
-        image: 'img/docusaurus-social-card.jpg',
         navbar: {
-            title: 'My Site',
-            logo: {
-                alt: 'My Site Logo',
-                src: 'img/logo.svg',
-            },
+            hideOnScroll: true,
+            title: 'Chrome-Extension-Starter',
             items: [
                 {
-                    type: 'docSidebar',
-                    sidebarId: 'tutorialSidebar',
+                    to: 'docs',
+                    activeBasePath: 'docs',
                     position: 'left',
-                    label: 'Tutorial',
+                    label: 'Document',
                 },
-                { to: '/blog', label: 'Blog', position: 'left' },
+                // {
+                //     to: 'docs/examples/hello-world',
+                //     activeBasePath: 'docs/examples',
+                //     label: 'Examples',
+                //     position: 'left',
+                // },
                 {
-                    href: 'https://github.com/facebook/docusaurus',
+                    href: 'https://chromewebstore.google.com/detail/ifmlochoiniognoocigfjcmakkdbhofi?utm_source=item-share-cb',
+                    label: 'Extension',
+                    position: 'right',
+                },
+                {
+                    href: 'https://github.com/carry0987/Chrome-Extension-Starter',
                     label: 'GitHub',
                     position: 'right',
                 },
@@ -92,47 +90,6 @@ const config: Config = {
         },
         footer: {
             style: 'dark',
-            links: [
-                {
-                    title: 'Docs',
-                    items: [
-                        {
-                            label: 'Tutorial',
-                            to: '/docs/intro',
-                        },
-                    ],
-                },
-                {
-                    title: 'Community',
-                    items: [
-                        {
-                            label: 'Stack Overflow',
-                            href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-                        },
-                        {
-                            label: 'Discord',
-                            href: 'https://discordapp.com/invite/docusaurus',
-                        },
-                        {
-                            label: 'Twitter',
-                            href: 'https://twitter.com/docusaurus',
-                        },
-                    ],
-                },
-                {
-                    title: 'More',
-                    items: [
-                        {
-                            label: 'Blog',
-                            to: '/blog',
-                        },
-                        {
-                            label: 'GitHub',
-                            href: 'https://github.com/facebook/docusaurus',
-                        },
-                    ],
-                },
-            ],
             copyright: `Copyright © ${new Date().getFullYear()} carry0987. Built with Docusaurus.`,
         },
         colorMode: {
@@ -151,32 +108,9 @@ const config: Config = {
              * Possible values: "top" | "bottom"
              */
             playgroundPosition: 'bottom',
-        },
-        // Optional: Algolia search integration, if you don't need it, you can remove this section
-        algolia: {
-            // The application ID provided by Algolia
-            appId: 'TLWF61FQC2',
-            // Public API key: it is safe to commit it
-            apiKey: '6ec45419a7334dddfbff735d9c6ccf54',
-            indexName: 'carry0987io',
-            // Optional: see doc section below
-            contextualSearch: true,
-            // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-            externalUrlRegex: 'external\\.com|domain\\.com',
-            // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
-            replaceSearchResultPathname: {
-                from: '/docs/', // or as RegExp: /\/docs\//
-                to: '/docs/',
-            },
-            // Optional: Algolia search parameters
-            searchParameters: {},
-            // Optional: path for search page that enabled by default (`false` to disable it)
-            searchPagePath: 'search',
-            // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
-            insights: false,
-        },
+        }
     } satisfies Preset.ThemeConfig,
-    themes: ['@docusaurus/theme-live-codeblock'],
+    themes: ['@docusaurus/theme-live-codeblock']
 };
 
 export default config;

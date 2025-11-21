@@ -1,47 +1,84 @@
 ---
 sidebar_position: 1
+slug: /
 ---
 
-# Tutorial Intro
+# Introduction
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Welcome to the **Chrome Extension Starter** documentation! This is a modern Chrome Extension template built with **TypeScript**, **Preact**, **TailwindCSS**, **RSBuild**, and **Vitest** — fully compatible with **Manifest V3**.
 
-## Getting Started
+## Overview
 
-Get started by **creating a new site**.
+Chrome Extension Starter is designed for fast development, clean architecture, and strongly typed communication between extension modules. It provides a solid foundation for building modern, production-ready Chrome extensions with best practices baked in.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Key Features
 
-### What you'll need
+- 🎯 **TypeScript ESNext** — Strong typing & modern syntax
+- ⚡ **RSBuild** — High-performance bundler optimized for modern web extensions
+- 🎨 **TailwindCSS v4** — Utility-first CSS framework for responsive design
+- ⚛️ **Preact** — Lightweight React-compatible UI framework
+- 🧪 **Vitest** — Fast unit testing powered by Vite
+- 🔒 **Manifest V3** — Full compliance with Chrome's latest extension manifest
 
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+## Quick Start
 
-## Generate a new site
+### Prerequisites
 
-Generate a new Docusaurus site using the **classic template**.
+- [Node.js](https://nodejs.org/) (LTS or Current)
+- [pnpm](https://pnpm.io/) — Recommended package manager
 
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
+### Installation
 
 ```bash
-cd my-website
-npm run start
+# Clone the repository
+git clone https://github.com/carry0987/Chrome-Extension-Starter.git
+
+# Navigate to the project directory
+cd Chrome-Extension-Starter
+
+# Install dependencies
+pnpm install
+
+# Build the extension
+pnpm build
+
+# Or build and watch for changes
+pnpm build:watch
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+### Load the Extension
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+1. Open Chrome and navigate to `chrome://extensions/`
+2. Enable **Developer mode** (toggle in the top right)
+3. Click **Load unpacked**
+4. Select the `dist/` folder from your project
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+## Project Structure
+
+```
+Chrome-Extension-Starter/
+├── public/              # Static assets & manifest
+│   ├── manifest.json    # Extension manifest
+│   ├── popup.html       # Popup page template
+│   ├── options.html     # Options page template
+│   ├── icons/           # Extension icons
+│   └── _locales/        # i18n translations
+├── src/
+│   ├── background/      # Background service worker
+│   ├── content/         # Content scripts
+│   ├── pages/           # UI pages (popup, options)
+│   └── shared/          # Shared utilities & types
+├── __tests__/           # Test files
+└── docs/                # Documentation
+```
+
+## What's Next?
+
+- Learn about the [Architecture](/architecture) of the extension
+- Explore [Core Modules](/core-modules/messaging) like messaging and storage
+- Check out [Development Guide](/development/building) for building and testing
+- See [API Reference](/api/types) for detailed type definitions
+
+## License
+
+MIT License - see [LICENSE](https://github.com/carry0987/Chrome-Extension-Starter/blob/master/LICENSE) for details.
