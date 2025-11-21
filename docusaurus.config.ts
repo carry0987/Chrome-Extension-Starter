@@ -11,12 +11,12 @@ const config: Config = {
     url: 'https://carry0987.github.io',
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
-    baseUrl: '/Docusaurus-Demo/',
+    baseUrl: '/Chrome-Extension-Starter/',
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
     organizationName: 'carry0987', // Usually your GitHub org/user name.
-    projectName: 'Docusaurus-Demo', // Usually your repo name.
+    projectName: 'Chrome-Extension-Starter', // Usually your repo name.
 
     // The broken links detection is only available for a production build
     onBrokenLinks: 'throw',
