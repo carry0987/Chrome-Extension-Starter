@@ -25,8 +25,7 @@ Create a popup that saves user preferences.
 
 ### Popup Component
 
-```tsx
-// src/pages/popup/index.tsx
+```tsx showLineNumbers title="src/pages/popup/index.tsx"
 import { render } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { kv } from '@/shared/lib/storage';
@@ -99,8 +98,7 @@ render(<Popup />, document.getElementById('root')!);
 
 Inject a floating widget into web pages.
 
-```tsx
-// src/content/widget.tsx
+```tsx showLineNumbers title="src/content/widget.tsx"
 import { render } from 'preact';
 import { useState } from 'preact/hooks';
 import { mount } from '@/shared/lib/dom';
@@ -171,8 +169,7 @@ render(<FloatingWidget />, container);
 
 Schedule periodic tasks using Chrome alarms.
 
-```typescript
-// src/background/alarms.ts
+```ts showLineNumbers title="src/background/alarms.ts"
 import { logger } from '@/shared/lib/logger';
 import { kv } from '@/shared/lib/storage';
 import { ALARMS } from '@/shared/constants';
@@ -270,8 +267,7 @@ const getNextMidnight = (): number => {
 
 Communicate between popup, content, and background scripts.
 
-```typescript
-// src/shared/constants.ts
+```ts showLineNumbers title="src/shared/constants.ts"
 export enum MSG {
   CHANGE_BG = 'CHANGE_BG',
   GET_PAGE_INFO = 'GET_PAGE_INFO',
@@ -294,8 +290,7 @@ export const MESSAGE_SPEC = {
 } as const;
 ```
 
-```tsx
-// src/pages/popup/index.tsx
+```tsx showLineNumbers title="src/pages/popup/index.tsx"
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -327,8 +322,7 @@ const Popup = () => {
 };
 ```
 
-```typescript
-// src/content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -347,8 +341,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 });
 ```
 
-```typescript
-// src/background/runtime.ts
+```ts showLineNumbers title="src/background/runtime.ts"
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -370,8 +363,7 @@ bus.on(MSG.NOTIFY_USER, async (payload) => {
 
 Sync user preferences across Chrome instances.
 
-```typescript
-// src/shared/lib/settings.ts
+```ts showLineNumbers title="src/shared/lib/settings.ts"
 import { kv } from '@/shared/lib/storage';
 
 export interface AppSettings {
@@ -447,8 +439,7 @@ const OptionsPage = () => {
 
 Inject content scripts programmatically into specific tabs.
 
-```typescript
-// src/background/injection.ts
+```ts showLineNumbers title="src/background/injection.ts"
 import { logger } from '@/shared/lib/logger';
 
 // Inject content script into tab
@@ -508,8 +499,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
 Add custom context menu items.
 
-```typescript
-// src/background/contextMenu.ts
+```ts showLineNumbers title="src/background/contextMenu.ts"
 import { logger } from '@/shared/lib/logger';
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
@@ -565,8 +555,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 Manage tabs programmatically.
 
-```typescript
-// src/background/tabs.ts
+```ts showLineNumbers title="src/background/tabs.ts"
 import { logger } from '@/shared/lib/logger';
 
 // Get active tab
@@ -609,6 +598,6 @@ export const moveTabToNewWindow = async (tabId: number): Promise<void> => {
 
 ## Next Steps
 
-- Explore [Core Modules](/core-modules/messaging) for more utilities
-- Check [API Reference](/api/types) for type definitions
-- Read [Development Guide](/development/building) for workflow tips
+- Explore [Core Modules](./core-modules/messaging) for more utilities
+- Check [API Reference](./api/types) for type definitions
+- Read [Development Guide](./development/building) for workflow tips

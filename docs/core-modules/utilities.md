@@ -22,7 +22,7 @@ Create or retrieve a mount point for UI elements.
 **Returns**: `HTMLElement`
 
 **Usage**:
-```typescript
+```ts
 import { mount } from '@/shared/lib/dom';
 import { render } from 'preact';
 
@@ -40,7 +40,7 @@ render(<MyComponent />, el);
 4. Returns the element
 
 **Example**: Multiple mount points
-```typescript
+```ts
 const overlay = mount('ces-overlay');
 const sidebar = mount('ces-sidebar');
 
@@ -67,7 +67,7 @@ Get localized message from `_locales/` directory.
 **Returns**: `string`
 
 **Usage**:
-```typescript
+```ts
 import { t } from '@/shared/lib/i18n';
 
 // Simple message
@@ -146,7 +146,7 @@ const Popup = () => {
 
 ### Usage in Content Scripts
 
-```typescript
+```ts
 import { t } from '@/shared/lib/i18n';
 
 bus.on(MSG.CHANGE_BG, (payload) => {
@@ -176,7 +176,7 @@ Convert errors to structured format for messaging.
 **Returns**: `ErrorResponse`
 
 **Usage**:
-```typescript
+```ts
 import { toErrorResponse } from '@/shared/lib/error';
 
 try {
@@ -195,7 +195,7 @@ try {
 ```
 
 **In Message Handlers**:
-```typescript
+```ts
 bus.on(MSG.GET_USER, async (payload) => {
   if (!payload.userId) {
     throw toErrorResponse('User ID is required', 'INVALID_INPUT');
@@ -227,7 +227,7 @@ Utilities for managing extension settings with defaults and validation.
 
 ### Example Implementation
 
-```typescript
+```ts
 // Define settings schema
 interface Settings {
   theme: 'light' | 'dark' | 'auto';
@@ -261,7 +261,7 @@ export const isValidTheme = (theme: string): theme is Settings['theme'] => {
 ```
 
 **Usage**:
-```typescript
+```ts
 import { getSettings, updateSettings } from '@/shared/lib/setting';
 
 // Get current settings
@@ -282,7 +282,7 @@ General-purpose utility functions.
 
 ### Common Patterns
 
-```typescript
+```ts
 // Debounce function
 export const debounce = <T extends (...args: any[]) => any>(
   fn: T,
@@ -332,7 +332,7 @@ export const retry = async <T>(
 ```
 
 **Usage**:
-```typescript
+```ts
 import { debounce, retry, sleep } from '@/shared/lib/utils';
 
 // Debounced search
@@ -367,7 +367,7 @@ Global constants and configuration.
 
 Feature flags for conditional behavior:
 
-```typescript
+```ts
 export const FLAGS = {
   ENABLE_OVERLAY: true,
   ENABLE_ANALYTICS: false,
@@ -376,7 +376,7 @@ export const FLAGS = {
 ```
 
 **Usage**:
-```typescript
+```ts
 import { FLAGS } from '@/shared/constants';
 
 if (FLAGS.ENABLE_OVERLAY) {
@@ -388,7 +388,7 @@ if (FLAGS.ENABLE_OVERLAY) {
 
 Alarm identifiers for scheduled tasks:
 
-```typescript
+```ts
 export const ALARMS = {
   POLL: 'poll',
   DAILY_CLEANUP: 'daily_cleanup',
@@ -397,7 +397,7 @@ export const ALARMS = {
 ```
 
 **Usage**:
-```typescript
+```ts
 import { ALARMS } from '@/shared/constants';
 
 chrome.alarms.create(ALARMS.POLL, { periodInMinutes: 5 });
@@ -413,7 +413,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 URL patterns to avoid:
 
-```typescript
+```ts
 export const RESTRICTED = {
   schemes: ['chrome', 'chrome-extension', 'chrome-untrusted', 'devtools', 'edge', 'about'],
   hosts: [
@@ -424,7 +424,7 @@ export const RESTRICTED = {
 ```
 
 **Usage**:
-```typescript
+```ts
 import { RESTRICTED } from '@/shared/constants';
 
 const isRestricted = (url: string): boolean => {
@@ -460,7 +460,7 @@ chrome.tabs.query({}, (tabs) => {
 
 Always import types for better IDE support:
 
-```typescript
+```ts
 import type { StorageSchema } from '@/shared/types';
 import type { MessageMap } from '@/shared/types';
 ```
@@ -469,7 +469,7 @@ import type { MessageMap } from '@/shared/types';
 
 Keep all magic values in `constants.ts`:
 
-```typescript
+```ts
 // ✓ Good
 import { ALARMS } from '@/shared/constants';
 chrome.alarms.create(ALARMS.POLL, { periodInMinutes: 5 });
@@ -482,7 +482,7 @@ chrome.alarms.create('poll', { periodInMinutes: 5 });
 
 Wrap common patterns in reusable utilities:
 
-```typescript
+```ts
 // utils.ts
 export const queryActiveTab = async (): Promise<chrome.tabs.Tab | undefined> => {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -495,7 +495,7 @@ const activeTab = await queryActiveTab();
 
 ### 4. Document Utility Functions
 
-```typescript
+```ts
 /**
  * Debounces a function call
  * @param fn - Function to debounce
@@ -512,6 +512,6 @@ export const debounce = <T extends (...args: any[]) => any>(
 
 ## Next Steps
 
-- Learn about [Development Workflow](/development/building)
-- Explore [Testing](/development/testing) utilities
-- Check [API Reference](/api/types) for type definitions
+- Learn about [Development Workflow](../development/building)
+- Explore [Testing](../development/testing) utilities
+- Check [API Reference](../api/types) for type definitions

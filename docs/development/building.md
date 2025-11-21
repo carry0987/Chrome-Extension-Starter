@@ -142,7 +142,7 @@ The build configuration defines two environments:
 
 #### Web Environment (UI Contexts)
 
-```typescript
+```ts
 environments: {
   web: {
     plugins: [pluginPreact(), pluginTypeCheck()],
@@ -175,7 +175,7 @@ environments: {
 
 #### Worker Environment (Background)
 
-```typescript
+```ts
 environments: {
   worker: {
     plugins: [pluginTypeCheck()],
@@ -202,7 +202,7 @@ environments: {
 
 The build automatically injects version from `package.json`:
 
-```typescript
+```ts
 new rspack.CopyRspackPlugin({
   patterns: [
     {
@@ -230,7 +230,7 @@ new rspack.CopyRspackPlugin({
 
 TailwindCSS v4 is integrated via PostCSS:
 
-```typescript
+```ts
 tools: {
   postcss: (opts, { addPlugins }) => {
     addPlugins([tailwind()]);
@@ -338,7 +338,7 @@ Could not load file 'static/js/background.js'
 2. Enable code splitting in RSBuild config
 3. Analyze bundle with `rsbuild inspect`
 
-```typescript
+```ts
 // Dynamic import
 const loadHeavyLibrary = async () => {
   const lib = await import('heavy-library');
@@ -353,7 +353,7 @@ const loadHeavyLibrary = async () => {
 2. Use incremental builds
 3. Reduce watched files
 
-```typescript
+```ts
 // Conditional type checking
 environments: {
   web: {
@@ -371,7 +371,7 @@ environments: {
 
 Enable source maps for debugging:
 
-```typescript
+```ts
 // rsbuild.config.ts
 export default defineConfig({
   output: {
@@ -386,7 +386,7 @@ export default defineConfig({
 
 Split vendor code for better caching:
 
-```typescript
+```ts
 export default defineConfig({
   performance: {
     chunkSplit: {
@@ -400,7 +400,7 @@ export default defineConfig({
 
 Copy additional assets:
 
-```typescript
+```ts
 new rspack.CopyRspackPlugin({
   patterns: [
     { from: 'public/icons', to: 'icons' },
@@ -431,6 +431,6 @@ On a typical development machine:
 
 ## Next Steps
 
-- Learn about [Testing](/development/testing) your extension
-- Explore [Debugging](/development/debugging) techniques
-- Read about [Packaging](/development/packaging) for distribution
+- Learn about [Testing](./testing) your extension
+- Explore [Debugging](./debugging) techniques
+- Read about [Packaging](./packaging) for distribution

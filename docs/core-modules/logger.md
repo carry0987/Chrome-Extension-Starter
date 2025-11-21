@@ -18,7 +18,7 @@ The logger offers:
 
 ## Basic Usage
 
-```typescript
+```ts
 import { logger } from '@/shared/lib/logger';
 
 logger.debug('Debug message', { data: 'value' });
@@ -33,7 +33,7 @@ logger.error('Error occurred', error);
 
 For detailed diagnostic information.
 
-```typescript
+```ts
 logger.debug('Processing request', { userId: 123, action: 'update' });
 // Output: [Chrome-Extension-Starter] 2025-11-22T10:30:00.000Z Processing request { userId: 123, action: 'update' }
 ```
@@ -42,7 +42,7 @@ logger.debug('Processing request', { userId: 123, action: 'update' });
 
 For general informational messages.
 
-```typescript
+```ts
 logger.info('Extension initialized successfully');
 // Output: [Chrome-Extension-Starter] 2025-11-22T10:30:01.000Z Extension initialized successfully
 ```
@@ -51,7 +51,7 @@ logger.info('Extension initialized successfully');
 
 For warning messages about potentially harmful situations.
 
-```typescript
+```ts
 logger.warn('API rate limit approaching', { remaining: 10 });
 // Output: [Chrome-Extension-Starter] 2025-11-22T10:30:02.000Z API rate limit approaching { remaining: 10 }
 ```
@@ -60,7 +60,7 @@ logger.warn('API rate limit approaching', { remaining: 10 });
 
 For error messages and exceptions.
 
-```typescript
+```ts
 logger.error('Failed to save settings', error);
 // Output: [Chrome-Extension-Starter] 2025-11-22T10:30:03.000Z Failed to save settings Error: ...
 ```
@@ -69,7 +69,7 @@ logger.error('Failed to save settings', error);
 
 ### Example 1: Background Service Worker
 
-```typescript
+```ts
 // background/runtime.ts
 import { logger } from '@/shared/lib/logger';
 
@@ -84,7 +84,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 ### Example 2: Message Handling
 
-```typescript
+```ts
 // content/index.tsx
 import { bus } from '@/shared/lib/messaging';
 import { logger } from '@/shared/lib/logger';
@@ -106,7 +106,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 
 ### Example 3: Storage Operations
 
-```typescript
+```ts
 import { kv } from '@/shared/lib/storage';
 import { logger } from '@/shared/lib/logger';
 
@@ -124,7 +124,7 @@ const saveSettings = async (settings: any) => {
 
 ### Example 4: API Requests
 
-```typescript
+```ts
 const fetchUserData = async (userId: number) => {
   logger.debug('Fetching user data', { userId });
   
@@ -142,7 +142,7 @@ const fetchUserData = async (userId: number) => {
 
 ### Example 5: Performance Monitoring
 
-```typescript
+```ts
 const measurePerformance = async (taskName: string, task: () => Promise<any>) => {
   const start = performance.now();
   logger.debug(`Starting task: ${taskName}`);
@@ -167,7 +167,7 @@ await measurePerformance('Save settings', () => saveSettings(data));
 
 ### 1. Use Appropriate Log Levels
 
-```typescript
+```ts
 // ✓ Good: Use debug for detailed diagnostics
 logger.debug('Processing item', { id: item.id, status: item.status });
 
@@ -183,7 +183,7 @@ logger.error('Database connection failed', error);
 
 ### 2. Include Context
 
-```typescript
+```ts
 // ❌ Bad: No context
 logger.error('Failed');
 
@@ -193,7 +193,7 @@ logger.error('Failed to load user profile', { userId: 123, error });
 
 ### 3. Avoid Sensitive Data
 
-```typescript
+```ts
 // ❌ Bad: Logs password
 logger.debug('User login', { username, password });
 
@@ -203,7 +203,7 @@ logger.debug('User login', { username });
 
 ### 4. Structure Your Logs
 
-```typescript
+```ts
 // ✓ Good: Structured data for easy parsing
 logger.info('API request completed', {
   endpoint: '/api/users',
@@ -219,7 +219,7 @@ logger.info('API request completed', {
 
 Create loggers for specific modules:
 
-```typescript
+```ts
 const createModuleLogger = (moduleName: string) => {
   const prefix = `[${moduleName}]`;
   return {
@@ -240,7 +240,7 @@ storageLogger.info('Saving data');
 
 Log only in development:
 
-```typescript
+```ts
 const isDev = process.env.NODE_ENV === 'development';
 
 const debugLog = (...args: unknown[]) => {
@@ -254,7 +254,7 @@ debugLog('This only logs in development');
 
 ### Performance Wrapper
 
-```typescript
+```ts
 const withLogging = <T extends (...args: any[]) => any>(
   fn: T,
   name: string
@@ -332,13 +332,13 @@ Open DevTools for the popup/options page:
 
 Edit `src/shared/lib/logger.ts`:
 
-```typescript
+```ts
 const NS = '[My-Extension]'; // Change this
 ```
 
 ### Add Custom Levels
 
-```typescript
+```ts
 export const logger = {
   debug: (...a: unknown[]) => log('debug', ...a),
   info: (...a: unknown[]) => log('info', ...a),
@@ -355,7 +355,7 @@ export const logger = {
 
 Send logs to a remote service:
 
-```typescript
+```ts
 const log = (level: Level, ...args: unknown[]) => {
   const time = new Date().toISOString();
   console[level]?.(NS, time, ...args);
@@ -383,7 +383,7 @@ const sendToRemote = async (logData: any) => {
 
 Mock the logger in tests:
 
-```typescript
+```ts
 // __tests__/setup.ts
 import { vi } from 'vitest';
 
@@ -399,7 +399,7 @@ vi.mock('@/shared/lib/logger', () => ({
 
 Test log calls:
 
-```typescript
+```ts
 import { describe, it, expect, vi } from 'vitest';
 import { logger } from '@/shared/lib/logger';
 
@@ -447,6 +447,6 @@ Log errors.
 
 ## Next Steps
 
-- Learn about [Messaging](/core-modules/messaging) for communication
-- Explore [Storage](/core-modules/storage) for data persistence
-- Check [Development Guide](/development/testing) for testing tips
+- Learn about [Messaging](./messaging) for communication
+- Explore [Storage](./storage) for data persistence
+- Check [Development Guide](../development/testing) for testing tips

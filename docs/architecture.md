@@ -27,7 +27,7 @@ The background service worker is the heart of your extension, running as a persi
 - `runtime.ts` — Runtime event handlers
 - `alarms.ts` — Scheduled task management
 
-```typescript
+```ts
 // Example: background/runtime.ts
 import { logger } from '@/shared/lib/logger';
 
@@ -52,7 +52,7 @@ Content scripts run in the context of web pages, allowing DOM manipulation and U
 - `index.tsx` — Content script entry with Preact overlay
 - `bridge.ts` — Communication bridge utilities
 
-```typescript
+```ts
 // Content scripts can render UI directly on pages
 import { render } from 'preact';
 import { mount } from '@/shared/lib/dom';
@@ -130,7 +130,7 @@ Shared utilities, types, and configuration used across all contexts.
 
 The messaging system uses TypeScript generics to ensure type safety across contexts:
 
-```typescript
+```ts
 // Define message contract in constants.ts
 export const MESSAGE_SPEC = {
   [MSG.CHANGE_BG]: {
@@ -161,7 +161,7 @@ Chrome Extension Starter supports all four Chrome storage areas:
 3. **managed** — Read-only, enterprise-controlled
 4. **session** — Ephemeral, lives with service worker session
 
-```typescript
+```ts
 // Type-safe storage operations
 await kv.set('sync', 'theme', 'dark');
 const theme = await kv.get('sync', 'theme', 'system');
@@ -174,7 +174,7 @@ const orgPolicy = await kv.get('managed', 'orgEnabled', false);
 
 Define your storage schema in `shared/types.d.ts`:
 
-```typescript
+```ts
 export interface StorageSchema {
   local: {
     darkMode: boolean;
@@ -199,7 +199,7 @@ export interface StorageSchema {
 
 The migration system handles version upgrades gracefully:
 
-```typescript
+```ts
 // Define migrations in config.ts
 export const customMigrations: Migration[] = [
   {
@@ -300,6 +300,6 @@ pnpm test:cov     # Coverage report
 
 ## Next Steps
 
-- Explore [Core Modules](/core-modules/messaging) in detail
-- Learn about [Development Workflow](/development/building)
-- Check [API Reference](/api/types) for type definitions
+- Explore [Core Modules](./core-modules/messaging) in detail
+- Learn about [Development Workflow](./development/building)
+- Check [API Reference](./api/types) for type definitions

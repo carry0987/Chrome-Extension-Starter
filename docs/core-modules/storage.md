@@ -44,7 +44,7 @@ Chrome Extension Starter's storage system offers:
 
 Define your storage schema in `shared/types.d.ts`:
 
-```typescript
+```ts
 export interface StorageSchema {
   local: {
     darkMode: boolean;
@@ -73,7 +73,7 @@ export interface StorageSchema {
 
 ## Creating Storage Instance
 
-```typescript
+```ts
 import { createTypedStorage } from '@/shared/lib/storage';
 import type { StorageSchema } from '@/shared/types';
 
@@ -89,13 +89,13 @@ Get a single value from storage.
 
 #### With Fallback (Guaranteed Return)
 
-```typescript
+```ts
 // Returns string (guaranteed, uses fallback if not found)
 const username = await kv.get('local', 'username', 'Guest');
 ```
 
 **Signature**:
-```typescript
+```ts
 get<Area, Key>(
   area: Area,
   key: Key,
@@ -105,7 +105,7 @@ get<Area, Key>(
 
 #### Without Fallback (Optional Return)
 
-```typescript
+```ts
 // Returns string | undefined
 const username = await kv.get('local', 'username');
 if (username) {
@@ -114,7 +114,7 @@ if (username) {
 ```
 
 **Signature**:
-```typescript
+```ts
 get<Area, Key>(
   area: Area,
   key: Key
@@ -127,7 +127,7 @@ Get all values from a storage area.
 
 #### With Defaults (Full Schema)
 
-```typescript
+```ts
 // Returns complete object with defaults
 const allLocal = await kv.getAll('local', {
   darkMode: false,
@@ -139,7 +139,7 @@ console.log(allLocal.darkMode); // boolean (guaranteed)
 ```
 
 **Signature**:
-```typescript
+```ts
 getAll<Area>(
   area: Area,
   defaults: Partial<StorageSchema[Area]>
@@ -148,14 +148,14 @@ getAll<Area>(
 
 #### Without Defaults (Partial Schema)
 
-```typescript
+```ts
 // Returns only stored keys
 const allLocal = await kv.getAll('local');
 console.log(allLocal.darkMode); // boolean | undefined
 ```
 
 **Signature**:
-```typescript
+```ts
 getAll<Area>(
   area: Area
 ): Promise<Partial<StorageSchema[Area]>>
@@ -167,7 +167,7 @@ Set a single value in storage.
 
 #### Allowed Areas (local, sync, session)
 
-```typescript
+```ts
 // Write to local storage
 await kv.set('local', 'username', 'John Doe');
 
@@ -179,7 +179,7 @@ await kv.set('session', 'tempToken', 'abc123');
 ```
 
 **Signature**:
-```typescript
+```ts
 set<Area, Key>(
   area: Exclude<Area, 'managed'>,
   key: Key,
@@ -189,7 +189,7 @@ set<Area, Key>(
 
 #### Forbidden Area (managed)
 
-```typescript
+```ts
 // ❌ Compile error: managed storage is read-only
 await kv.set('managed', 'orgEnabled', true);
 ```
@@ -198,7 +198,7 @@ await kv.set('managed', 'orgEnabled', true);
 
 Set multiple values at once.
 
-```typescript
+```ts
 await kv.setAll('local', {
   username: 'John Doe',
   darkMode: true,
@@ -212,7 +212,7 @@ await kv.setAll('sync', {
 ```
 
 **Signature**:
-```typescript
+```ts
 setAll<Area>(
   area: Exclude<Area, 'managed'>,
   data: Partial<StorageSchema[Area]>
@@ -223,13 +223,13 @@ setAll<Area>(
 
 Remove a single key from storage.
 
-```typescript
+```ts
 await kv.remove('local', 'username');
 await kv.remove('session', 'tempToken');
 ```
 
 **Signature**:
-```typescript
+```ts
 remove<Area, Key>(
   area: Exclude<Area, 'managed'>,
   key: Key
@@ -240,7 +240,7 @@ remove<Area, Key>(
 
 Clear all data from a storage area.
 
-```typescript
+```ts
 // Clear all local storage
 await kv.clear('local');
 
@@ -249,7 +249,7 @@ await kv.clear('session');
 ```
 
 **Signature**:
-```typescript
+```ts
 clear<Area>(
   area: Exclude<Area, 'managed'>
 ): Promise<void>
@@ -259,7 +259,7 @@ clear<Area>(
 
 ### Example 1: User Preferences
 
-```typescript
+```ts
 import { kv } from '@/shared/lib/storage';
 
 // Get theme with fallback
@@ -277,7 +277,7 @@ await kv.set('sync', 'settings', {
 
 ### Example 2: Session Management
 
-```typescript
+```ts
 // Store temporary token on login
 await kv.set('session', 'tempToken', 'eyJhbGc...');
 
@@ -296,7 +296,7 @@ await kv.remove('session', 'tempToken');
 
 ### Example 3: Recent Files List
 
-```typescript
+```ts
 // Add file to recent files
 const recentFiles = await kv.get('local', 'recentFiles', []);
 const updated = [newFile, ...recentFiles].slice(0, 10); // Keep last 10
@@ -306,7 +306,7 @@ await kv.set('local', 'recentFiles', updated);
 
 ### Example 4: Enterprise Policies (Managed Storage)
 
-```typescript
+```ts
 // Read organization settings (read-only)
 const orgEnabled = await kv.get('managed', 'orgEnabled', false);
 const allowedHosts = await kv.get('managed', 'allowedHosts', []);
@@ -322,7 +322,7 @@ if (orgEnabled) {
 
 ### Example 5: Bulk Operations
 
-```typescript
+```ts
 // Save multiple settings at once
 await kv.setAll('local', {
   darkMode: true,
@@ -349,7 +349,7 @@ console.log(allSettings);
 
 Listen for storage changes across all contexts:
 
-```typescript
+```ts
 chrome.storage.onChanged.addListener((changes, areaName) => {
   console.log(`Storage area "${areaName}" changed:`, changes);
   
@@ -362,7 +362,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 ### Typed Storage Listener Helper
 
-```typescript
+```ts
 const watchStorage = <Area extends keyof StorageSchema>(
   area: Area,
   callback: (changes: Record<string, chrome.storage.StorageChange>) => void
@@ -391,7 +391,7 @@ const unwatch = watchStorage('sync', (changes) => {
 
 Safely update nested objects:
 
-```typescript
+```ts
 const updateSettings = async (updates: Partial<{ theme: string; language: string }>) => {
   const current = await kv.get('sync', 'settings', { theme: 'auto', language: 'en' });
   await kv.set('sync', 'settings', { ...current, ...updates });
@@ -402,7 +402,7 @@ await updateSettings({ theme: 'dark' });
 
 ### Lazy Initialization
 
-```typescript
+```ts
 const getOrInit = async <A extends keyof StorageSchema, K extends keyof StorageSchema[A]>(
   area: A,
   key: K,
@@ -425,7 +425,7 @@ const username = await getOrInit('local', 'username', () => 'Guest');
 
 Combine with migration system:
 
-```typescript
+```ts
 import { kv } from '@/shared/lib/storage';
 
 export const migrateSettings = async () => {
@@ -441,7 +441,7 @@ export const migrateSettings = async () => {
 
 ### Checking Used Space
 
-```typescript
+```ts
 chrome.storage.local.getBytesInUse(null, (bytes) => {
   console.log('Local storage used:', bytes, 'bytes');
 });
@@ -472,7 +472,7 @@ chrome.storage.sync.getBytesInUse(null, (bytes) => {
 
 ## Error Handling
 
-```typescript
+```ts
 try {
   await kv.set('sync', 'settings', largeObject);
 } catch (err) {
@@ -505,6 +505,6 @@ try {
 
 ## Next Steps
 
-- Learn about [Migration](/core-modules/migration) for version upgrades
-- Explore [Messaging](/core-modules/messaging) for cross-context communication
-- Check [API Reference](/api/storage-api) for detailed types
+- Learn about [Migration](./migration) for version upgrades
+- Explore [Messaging](./messaging) for cross-context communication
+- Check [API Reference](../api/storage-api) for detailed types

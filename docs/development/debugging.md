@@ -25,7 +25,7 @@ Chrome extensions run in multiple isolated contexts, each requiring different de
 
 ### Console Logging
 
-```typescript
+```ts
 // background/runtime.ts
 import { logger } from '@/shared/lib/logger';
 
@@ -50,7 +50,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 Monitor API calls in the **Network** tab:
 
-```typescript
+```ts
 // background/index.ts
 const fetchData = async () => {
   const response = await fetch('https://api.example.com/data');
@@ -87,7 +87,7 @@ Content scripts run in the context of web pages:
 
 ### Console Logging
 
-```typescript
+```ts
 // content/index.tsx
 import { logger } from '@/shared/lib/logger';
 
@@ -111,7 +111,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 
 Inspect injected elements:
 
-```typescript
+```ts
 // content/index.tsx
 const overlay = mount('ces-overlay');
 logger.info('Overlay mounted', overlay);
@@ -126,7 +126,7 @@ logger.info('Overlay mounted', overlay);
 
 Debug message passing:
 
-```typescript
+```ts
 // content/index.tsx
 bus.on(MSG.CHANGE_BG, (payload, sender) => {
   logger.debug('Message received from', sender.tab?.id, 'with payload', payload);
@@ -156,7 +156,7 @@ bus.on(MSG.CHANGE_BG, (payload, sender) => {
 
 ### Console Logging
 
-```typescript
+```ts
 // pages/popup/index.tsx
 import { logger } from '@/shared/lib/logger';
 
@@ -184,7 +184,7 @@ Use React DevTools:
 
 Monitor API calls in popup:
 
-```typescript
+```ts
 const fetchSettings = async () => {
   logger.debug('Fetching settings from API');
   const response = await fetch('/api/settings');
@@ -200,7 +200,7 @@ const fetchSettings = async () => {
 
 Track messages across contexts:
 
-```typescript
+```ts
 // popup/index.tsx
 logger.info('[POPUP] Sending CHANGE_BG message');
 await bus.sendToActive(MSG.CHANGE_BG, { color: 'red' });
@@ -224,7 +224,7 @@ Set breakpoints that only trigger when conditions are met:
 
 Measure execution time:
 
-```typescript
+```ts
 const measurePerformance = async (fn: () => Promise<any>, label: string) => {
   const start = performance.now();
   logger.debug(`[PERF] Starting: ${label}`);
@@ -292,7 +292,7 @@ Keep logs when popup closes:
 
 Enable source maps for debugging TypeScript:
 
-```typescript
+```ts
 // rsbuild.config.ts
 export default defineConfig({
   output: {
@@ -314,7 +314,7 @@ export default defineConfig({
 
 Use the built-in logger for structured logging:
 
-```typescript
+```ts
 import { logger } from '@/shared/lib/logger';
 
 // Debug level (detailed)
@@ -334,7 +334,7 @@ logger.error('Failed to save settings', error);
 
 View storage in real-time:
 
-```typescript
+```ts
 // Add to background script
 chrome.storage.onChanged.addListener((changes, areaName) => {
   logger.info('Storage changed', { area: areaName, changes });
@@ -345,7 +345,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 Log all messages:
 
-```typescript
+```ts
 // In content script
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   logger.debug('Message received', { type: msg.type, payload: msg.payload, sender });
@@ -368,7 +368,7 @@ Debug extensions on remote devices:
 
 Send logs to a remote service for debugging:
 
-```typescript
+```ts
 const sendToRemote = async (log: any) => {
   if (process.env.NODE_ENV === 'development') {
     await fetch('http://localhost:3000/logs', {
@@ -404,7 +404,7 @@ export const logger = {
 **Problem**: Content script doesn't run on certain pages
 
 **Debug**:
-```typescript
+```ts
 // Check if content script loaded
 console.log('[Content Script] Loaded on', window.location.href);
 
@@ -421,7 +421,7 @@ logger.info('Match patterns', chrome.runtime.getManifest().content_scripts);
 **Problem**: Messages sent but not received
 
 **Debug**:
-```typescript
+```ts
 // Sender
 logger.info('[SENDER] Sending message', { type: MSG.CHANGE_BG, payload });
 const result = await bus.sendToActive(MSG.CHANGE_BG, payload);
@@ -444,7 +444,7 @@ bus.on(MSG.CHANGE_BG, (payload, sender) => {
 **Problem**: Data not saved to Chrome Storage
 
 **Debug**:
-```typescript
+```ts
 await kv.set('sync', 'theme', 'dark');
 logger.info('Theme saved');
 
@@ -473,6 +473,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 ## Next Steps
 
-- Learn about [Building](/development/building) for production
-- Explore [Testing](/development/testing) strategies
-- Read about [Packaging](/development/packaging) for distribution
+- Learn about [Building](./building) for production
+- Explore [Testing](./testing) strategies
+- Read about [Packaging](./packaging) for distribution

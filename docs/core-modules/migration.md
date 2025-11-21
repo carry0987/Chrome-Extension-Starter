@@ -36,7 +36,7 @@ Update Stored Version
 
 ### Migration Interface
 
-```typescript
+```ts
 export interface Migration {
   version: Version;           // Target version (e.g., "1.1.0")
   description: string;        // Human-readable description
@@ -52,7 +52,7 @@ export type MigrationFn = (
 
 The migration function receives a context object:
 
-```typescript
+```ts
 export interface MigrationContext {
   currentVersion: Version;    // Current extension version
   storedVersion: Version | null;  // Previously stored version
@@ -74,7 +74,7 @@ export interface MigrationContext {
 
 Return storage updates to apply:
 
-```typescript
+```ts
 export interface MigrationResult {
   sync?: Record<string, any>;   // Updates for sync storage
   local?: Record<string, any>;  // Updates for local storage
@@ -85,7 +85,7 @@ export interface MigrationResult {
 
 Define migrations in `src/shared/config.ts`:
 
-```typescript
+```ts
 import type { Migration } from '@/shared/lib/migration';
 
 export const customMigrations: Migration[] = [
@@ -144,7 +144,7 @@ export const customMigrations: Migration[] = [
 
 Migrations run automatically on extension install/update:
 
-```typescript
+```ts
 // In background/runtime.ts
 import { runMigrations } from '@/shared/lib/migration';
 import { logger } from '@/shared/lib/logger';
@@ -165,7 +165,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
 You can also run migrations manually:
 
-```typescript
+```ts
 import { runMigrations } from '@/shared/lib/migration';
 
 await runMigrations();
@@ -175,7 +175,7 @@ await runMigrations();
 
 ### Example 1: Rename Keys
 
-```typescript
+```ts
 {
   version: '1.1.0',
   description: 'Rename "theme" to "appearance"',
@@ -195,7 +195,7 @@ await runMigrations();
 
 ### Example 2: Transform Data Structure
 
-```typescript
+```ts
 {
   version: '1.2.0',
   description: 'Convert settings array to object',
@@ -219,7 +219,7 @@ await runMigrations();
 
 ### Example 3: Add Default Values
 
-```typescript
+```ts
 {
   version: '1.3.0',
   description: 'Add default notification settings',
@@ -245,7 +245,7 @@ await runMigrations();
 
 ### Example 4: Clean Up Old Data
 
-```typescript
+```ts
 {
   version: '1.4.0',
   description: 'Remove deprecated cache entries',
@@ -265,7 +265,7 @@ await runMigrations();
 
 ### Example 5: Conditional Migration
 
-```typescript
+```ts
 {
   version: '1.5.0',
   description: 'Migrate only if feature was enabled',
@@ -288,7 +288,7 @@ await runMigrations();
 
 The migration system uses semantic versioning for comparison:
 
-```typescript
+```ts
 // Versions are compared as [major, minor, patch]
 "1.0.0" < "1.0.1" < "1.1.0" < "2.0.0"
 ```
@@ -297,7 +297,7 @@ The migration system uses semantic versioning for comparison:
 
 The system supports basic semver:
 
-```typescript
+```ts
 parseVersion("1.2.3") // [1, 2, 3]
 parseVersion("2.0") // [2, 0, 0]
 parseVersion("1.0.0-beta") // [1, 0, 0] (suffix ignored)
@@ -309,7 +309,7 @@ parseVersion("1.0.0-beta") // [1, 0, 0] (suffix ignored)
 
 Always specify the target version:
 
-```typescript
+```ts
 {
   version: '1.2.0',  // ✓ Clear target version
   description: 'Add feature X',
@@ -319,7 +319,7 @@ Always specify the target version:
 
 ### 2. Provide Clear Descriptions
 
-```typescript
+```ts
 {
   version: '1.3.0',
   description: 'Migrate user preferences from array to object format',  // ✓ Clear
@@ -331,7 +331,7 @@ Always specify the target version:
 
 Always check if data exists before transforming:
 
-```typescript
+```ts
 migrate: async (ctx) => {
   const data = await ctx.getStorage('sync', 'myData');
   if (!data) {
@@ -343,7 +343,7 @@ migrate: async (ctx) => {
 
 ### 4. Return Undefined for Keys to Delete
 
-```typescript
+```ts
 return {
   sync: {
     oldKey: undefined,  // ✓ Removes the key
@@ -356,7 +356,7 @@ return {
 
 Test migration logic before deployment:
 
-```typescript
+```ts
 // In __tests__/migration.test.ts
 import { describe, it, expect } from 'vitest';
 import { customMigrations } from '@/shared/config';
@@ -381,7 +381,7 @@ describe('Migrations', () => {
 
 Migrations should be safe to run multiple times:
 
-```typescript
+```ts
 migrate: async (ctx) => {
   const settings = await ctx.getStorage('sync', 'settings');
   
@@ -404,7 +404,7 @@ migrate: async (ctx) => {
 
 ### 7. Log Migration Progress
 
-```typescript
+```ts
 import { logger } from '@/shared/lib/logger';
 
 migrate: async (ctx) => {
@@ -421,7 +421,7 @@ migrate: async (ctx) => {
 
 Run migrations based on stored version:
 
-```typescript
+```ts
 migrate: async (ctx) => {
   // Only run if upgrading from v1.x.x
   if (ctx.storedVersion?.startsWith('1.')) {
@@ -437,7 +437,7 @@ migrate: async (ctx) => {
 
 Update multiple storage areas:
 
-```typescript
+```ts
 migrate: async (ctx) => {
   const [syncData, localData] = await Promise.all([
     ctx.getStorage('sync', 'settings'),
@@ -455,7 +455,7 @@ migrate: async (ctx) => {
 
 Break complex migrations into smaller steps:
 
-```typescript
+```ts
 // Migration 1.1.0: Step 1
 {
   version: '1.1.0',
@@ -496,7 +496,7 @@ Execute all pending migrations.
 
 **Throws**: Error if migration fails
 
-```typescript
+```ts
 import { runMigrations } from '@/shared/lib/migration';
 
 await runMigrations();
@@ -512,7 +512,7 @@ Compare two semantic versions.
 
 **Returns**: `-1 | 0 | 1`
 
-```typescript
+```ts
 import { compareVersions } from '@/shared/lib/migration';
 
 compareVersions('1.0.0', '1.1.0'); // -1
@@ -529,7 +529,7 @@ Parse version string to number array.
 
 **Returns**: `number[]`
 
-```typescript
+```ts
 import { parseVersion } from '@/shared/lib/migration';
 
 parseVersion('1.2.3'); // [1, 2, 3]
@@ -558,7 +558,7 @@ parseVersion('2.0');   // [2, 0, 0]
 
 ## Testing Migrations
 
-```typescript
+```ts
 // __tests__/migration.test.ts
 import { describe, it, expect, beforeEach } from 'vitest';
 import { runMigrations } from '@/shared/lib/migration';
@@ -587,6 +587,6 @@ describe('Migration System', () => {
 
 ## Next Steps
 
-- Learn about [Storage](/core-modules/storage) for data persistence
-- Explore [Messaging](/core-modules/messaging) for communication
-- Check [Development Guide](/development/building) for workflow
+- Learn about [Storage](./storage) for data persistence
+- Explore [Messaging](./messaging) for communication
+- Check [Development Guide](../development/building) for workflow

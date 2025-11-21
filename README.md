@@ -16,7 +16,7 @@ pnpm create docusaurus <folder-name> classic --typescript
 Make the following changes to the `docusaurus.config.ts` configuration file:
 
 1. Set the URL/base URL
-```typescript
+```ts
 const config: Config = {
     // (...)
     url: `https://<github-organization-name>.github.io`,
@@ -25,7 +25,7 @@ const config: Config = {
 ```
 
 2. Set the `organizationName` and `projectName` options
-```typescript
+```ts
 const config: Config = {
     // (...)
     organizationName: '<github-organization-name>',
@@ -34,7 +34,7 @@ const config: Config = {
 ```
 
 3. Configure the blog and docs edit URLs
-```typescript
+```ts
 const config: Config = {
     // (...)
     presets: [

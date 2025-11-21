@@ -14,7 +14,7 @@ Complete type reference for Chrome Extension Starter's shared types and interfac
 
 Generic message structure for extension communication.
 
-```typescript
+```ts
 export type Message<T extends string = string, P = unknown> = {
   type: T;
   payload?: P;
@@ -30,7 +30,7 @@ export type Message<T extends string = string, P = unknown> = {
 - `payload?: P` — Optional message data
 
 **Example**:
-```typescript
+```ts
 const message: Message<'CHANGE_BG', { color: string }> = {
   type: 'CHANGE_BG',
   payload: { color: '#0ea5e9' }
@@ -43,7 +43,7 @@ const message: Message<'CHANGE_BG', { color: string }> = {
 
 Type-safe message map defining all extension messages.
 
-```typescript
+```ts
 export type MessageMap = MessageMapOf<typeof MSG, typeof MESSAGE_SPEC>;
 ```
 
@@ -52,7 +52,7 @@ export type MessageMap = MessageMapOf<typeof MSG, typeof MESSAGE_SPEC>;
 - `MESSAGE_SPEC` (request/response contracts)
 
 **Example**:
-```typescript
+```ts
 type MessageMap = {
   CHANGE_BG: {
     req: { color: string };
@@ -71,7 +71,7 @@ type MessageMap = {
 
 Utility type for merging message types with specifications.
 
-```typescript
+```ts
 export type MessageMapOf<
   T extends Record<string, string>,
   O extends Partial<{ [K in keyof T]: { req?: any; res?: any } }>
@@ -90,7 +90,7 @@ export type MessageMapOf<
 
 Structured error response for messaging.
 
-```typescript
+```ts
 export interface ErrorResponse {
   error: {
     message: string;
@@ -106,7 +106,7 @@ export interface ErrorResponse {
 - `error.details?: unknown` — Additional error context
 
 **Example**:
-```typescript
+```ts
 const errorResponse: ErrorResponse = {
   error: {
     message: 'User not found',
@@ -124,7 +124,7 @@ const errorResponse: ErrorResponse = {
 
 Defines the complete storage schema for all storage areas.
 
-```typescript
+```ts
 export interface StorageSchema {
   local: {
     darkMode: boolean;
@@ -164,7 +164,7 @@ export interface StorageSchema {
 - `tempToken: string | null` — Temporary auth token
 
 **Customization**:
-```typescript
+```ts
 // Extend schema in types.d.ts
 export interface StorageSchema {
   local: {
@@ -190,14 +190,14 @@ export interface StorageSchema {
 
 Semantic version string.
 
-```typescript
+```ts
 export type Version = string;
 ```
 
 **Format**: `"x.y.z"` (e.g., `"1.2.3"`)
 
 **Example**:
-```typescript
+```ts
 const version: Version = '1.3.0';
 ```
 
@@ -207,7 +207,7 @@ const version: Version = '1.3.0';
 
 Migration definition interface.
 
-```typescript
+```ts
 export interface Migration {
   version: Version;
   description: string;
@@ -221,7 +221,7 @@ export interface Migration {
 - `migrate: MigrationFn` — Migration function
 
 **Example**:
-```typescript
+```ts
 const migration: Migration = {
   version: '1.1.0',
   description: 'Migrate settings to new format',
@@ -240,7 +240,7 @@ const migration: Migration = {
 
 Migration function type.
 
-```typescript
+```ts
 export type MigrationFn = (
   context: MigrationContext
 ) => Promise<void | MigrationResult>;
@@ -259,7 +259,7 @@ export type MigrationFn = (
 
 Context provided to migration functions.
 
-```typescript
+```ts
 export interface MigrationContext {
   currentVersion: Version;
   storedVersion: Version | null;
@@ -280,7 +280,7 @@ export interface MigrationContext {
 - `getAllStorage()` — Get all values from area
 
 **Example**:
-```typescript
+```ts
 const migrate: MigrationFn = async (ctx) => {
   console.log('Migrating from', ctx.storedVersion, 'to', ctx.currentVersion);
   
@@ -299,7 +299,7 @@ const migrate: MigrationFn = async (ctx) => {
 
 Result object defining storage updates.
 
-```typescript
+```ts
 export interface MigrationResult {
   sync?: Record<string, any>;
   local?: Record<string, any>;
@@ -311,7 +311,7 @@ export interface MigrationResult {
 - `local?: Record<string, any>` — Updates for local storage
 
 **Example**:
-```typescript
+```ts
 const result: MigrationResult = {
   sync: {
     settings: newSettings,
@@ -331,7 +331,7 @@ const result: MigrationResult = {
 
 Recursively makes all properties optional.
 
-```typescript
+```ts
 type DeepPartial<T> = T extends Function
   ? T
   : T extends object
@@ -340,7 +340,7 @@ type DeepPartial<T> = T extends Function
 ```
 
 **Usage**:
-```typescript
+```ts
 interface Settings {
   theme: {
     mode: 'light' | 'dark';
@@ -365,12 +365,12 @@ type PartialSettings = DeepPartial<Settings>;
 
 Makes properties optional but not undefined.
 
-```typescript
+```ts
 type StrictPartial<T> = { [K in keyof T]?: T[K] };
 ```
 
 **Usage**:
-```typescript
+```ts
 interface User {
   id: number;
   name: string;
@@ -386,12 +386,12 @@ type PartialUser = StrictPartial<User>;
 
 Extract value type from object property.
 
-```typescript
+```ts
 type ValueOf<T, K extends keyof T> = T[K];
 ```
 
 **Usage**:
-```typescript
+```ts
 interface StorageSchema {
   local: { theme: string };
   sync: { version: string };
@@ -409,14 +409,14 @@ type LocalTheme = ValueOf<StorageSchema['local'], 'theme'>;
 
 Message type enumeration.
 
-```typescript
+```ts
 export enum MSG {
   CHANGE_BG = 'CHANGE_BG'
 }
 ```
 
 **Usage**:
-```typescript
+```ts
 import { MSG } from '@/shared/constants';
 
 await bus.sendToActive(MSG.CHANGE_BG, { color: 'red' });
@@ -430,7 +430,7 @@ await bus.sendToActive(MSG.CHANGE_BG, { color: 'red' });
 
 Feature flags object.
 
-```typescript
+```ts
 export const FLAGS = {
   ENABLE_OVERLAY: true
 } as const;
@@ -439,7 +439,7 @@ export type Flags = typeof FLAGS;
 ```
 
 **Type**:
-```typescript
+```ts
 type Flags = {
   readonly ENABLE_OVERLAY: true;
 }
@@ -451,7 +451,7 @@ type Flags = {
 
 Alarm identifiers.
 
-```typescript
+```ts
 export const ALARMS = {
   POLL: 'poll',
   DAILY_CLEANUP: 'daily_cleanup'
@@ -461,7 +461,7 @@ export type AlarmName = typeof ALARMS[keyof typeof ALARMS];
 ```
 
 **Type**:
-```typescript
+```ts
 type AlarmName = 'poll' | 'daily_cleanup';
 ```
 
@@ -471,7 +471,7 @@ type AlarmName = 'poll' | 'daily_cleanup';
 
 Restricted URL patterns.
 
-```typescript
+```ts
 export const RESTRICTED = {
   schemes: ['chrome', 'chrome-extension', 'chrome-untrusted', 'devtools', 'edge', 'about'],
   hosts: [
@@ -484,7 +484,7 @@ export type RestrictedScheme = typeof RESTRICTED.schemes[number];
 ```
 
 **Type**:
-```typescript
+```ts
 type RestrictedScheme = 'chrome' | 'chrome-extension' | 'chrome-untrusted' | 'devtools' | 'edge' | 'about';
 ```
 
@@ -494,7 +494,7 @@ type RestrictedScheme = 'chrome' | 'chrome-extension' | 'chrome-untrusted' | 'de
 
 ### Example Type Guards
 
-```typescript
+```ts
 // Check if value is ErrorResponse
 export function isErrorResponse(value: any): value is ErrorResponse {
   return (
@@ -519,7 +519,7 @@ export function isValidVersion(version: string): version is Version {
 ```
 
 **Usage**:
-```typescript
+```ts
 const response = await fetchData();
 
 if (isErrorResponse(response)) {
@@ -535,7 +535,7 @@ if (isErrorResponse(response)) {
 
 ### Custom Message Types
 
-```typescript
+```ts
 // In shared/constants.ts
 export enum MSG {
   CHANGE_BG = 'CHANGE_BG',
@@ -564,7 +564,7 @@ export const MESSAGE_SPEC = {
 
 ### Custom Storage Schema
 
-```typescript
+```ts
 // In shared/types.d.ts
 export interface StorageSchema {
   local: {
@@ -619,6 +619,6 @@ export interface MyAppSettings {
 
 ## Next Steps
 
-- Explore [Messaging API](/api/messaging-api) for detailed function signatures
-- Check [Storage API](/api/storage-api) for storage utilities
-- Learn about [Core Modules](/core-modules/messaging) usage
+- Explore [Messaging API](./api/messaging-api) for detailed function signatures
+- Check [Storage API](./api/storage-api) for storage utilities
+- Learn about [Core Modules](../core-modules/messaging) usage

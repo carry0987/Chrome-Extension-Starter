@@ -64,7 +64,7 @@ __tests__/
 
 ### Basic Test
 
-```typescript
+```ts
 import { describe, it, expect } from 'vitest';
 import { myFunction } from '@/shared/lib/utils';
 
@@ -83,7 +83,7 @@ describe('myFunction', () => {
 
 ### Async Tests
 
-```typescript
+```ts
 import { describe, it, expect } from 'vitest';
 import { fetchData } from '@/shared/lib/api';
 
@@ -102,7 +102,7 @@ describe('fetchData', () => {
 
 ### Component Tests
 
-```typescript
+```ts
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/preact';
 import { MyComponent } from '@/shared/components/MyComponent';
@@ -126,7 +126,7 @@ describe('MyComponent', () => {
 
 ### Mock Chrome API
 
-```typescript
+```ts
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 describe('Background script', () => {
@@ -158,7 +158,7 @@ describe('Background script', () => {
 
 ### Mock Modules
 
-```typescript
+```ts
 import { describe, it, expect, vi } from 'vitest';
 
 // Mock entire module
@@ -184,7 +184,7 @@ describe('myFunction', () => {
 
 ### Mock Functions
 
-```typescript
+```ts
 import { describe, it, expect, vi } from 'vitest';
 
 describe('Callback handling', () => {
@@ -202,7 +202,7 @@ describe('Callback handling', () => {
 
 ### Testing Messaging
 
-```typescript
+```ts
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createMessenger } from '@/shared/lib/messaging';
 import type { MessageMap } from '@/shared/types';
@@ -240,7 +240,7 @@ describe('Messaging', () => {
 
 ### Testing Storage
 
-```typescript
+```ts
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createTypedStorage } from '@/shared/lib/storage';
 import type { StorageSchema } from '@/shared/types';
@@ -288,7 +288,7 @@ describe('Storage', () => {
 
 ### Testing Migration
 
-```typescript
+```ts
 import { describe, it, expect, beforeEach } from 'vitest';
 import { runMigrations } from '@/shared/lib/migration';
 import { kv } from '@/shared/lib/storage';
@@ -344,7 +344,7 @@ All files           |   85.5  |   78.2   |   90.1  |   85.5  |
 
 Set minimum coverage in `vitest.config.ts`:
 
-```typescript
+```ts
 export default defineConfig({
   test: {
     coverage: {
@@ -383,7 +383,7 @@ coverage/index.html
 
 ### 2. Use Descriptive Test Names
 
-```typescript
+```ts
 // ✓ Good
 it('should return user data when valid ID is provided', async () => {
   // ...
@@ -397,7 +397,7 @@ it('works', () => {
 
 ### 3. Arrange-Act-Assert Pattern
 
-```typescript
+```ts
 it('should update settings', async () => {
   // Arrange
   const initialSettings = { theme: 'light' };
@@ -414,7 +414,7 @@ it('should update settings', async () => {
 
 ### 4. Clean Up After Tests
 
-```typescript
+```ts
 import { afterEach, beforeEach } from 'vitest';
 
 beforeEach(() => {
@@ -429,7 +429,7 @@ afterEach(() => {
 
 ### 5. Test Edge Cases
 
-```typescript
+```ts
 describe('parseVersion', () => {
   it('should parse valid version', () => {
     expect(parseVersion('1.2.3')).toEqual([1, 2, 3]);
@@ -447,7 +447,7 @@ describe('parseVersion', () => {
 
 ### 6. Avoid Test Interdependence
 
-```typescript
+```ts
 // ✓ Good: Each test is independent
 describe('Storage', () => {
   it('should set value', async () => {
@@ -498,7 +498,7 @@ Add launch configuration in `.vscode/launch.json`:
 
 ### Debug Single Test
 
-```typescript
+```ts
 import { describe, it } from 'vitest';
 
 describe.only('Focus this suite', () => {
@@ -510,7 +510,7 @@ describe.only('Focus this suite', () => {
 
 ### Debug Output
 
-```typescript
+```ts
 import { describe, it } from 'vitest';
 
 it('should debug values', () => {
@@ -552,7 +552,7 @@ jobs:
 ### Tests Not Running
 
 **Check test file pattern**:
-```typescript
+```ts
 // vitest.config.ts
 export default defineConfig({
   test: {
@@ -564,7 +564,7 @@ export default defineConfig({
 ### Import Errors
 
 **Configure path aliases**:
-```typescript
+```ts
 // vitest.config.ts
 export default defineConfig({
   resolve: {
@@ -578,7 +578,7 @@ export default defineConfig({
 ### Mock Not Working
 
 **Ensure mock is hoisted**:
-```typescript
+```ts
 // Mock before imports
 vi.mock('@/shared/lib/logger');
 
@@ -587,6 +587,6 @@ import { logger } from '@/shared/lib/logger';
 
 ## Next Steps
 
-- Learn about [Debugging](/development/debugging) techniques
-- Explore [Packaging](/development/packaging) for distribution
-- Read about [CI/CD](/development/cicd) workflows
+- Learn about [Debugging](./debugging) techniques
+- Explore [Packaging](./packaging) for distribution
+- Read about [CI/CD](./cicd) workflows

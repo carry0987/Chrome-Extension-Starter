@@ -18,7 +18,7 @@ Chrome extensions communicate via message passing. This module wraps `chrome.run
 
 ## Creating the Message Bus
 
-```typescript
+```ts
 import { createMessenger } from '@/shared/lib/messaging';
 import type { MessageMap } from '@/shared/types';
 
@@ -31,7 +31,7 @@ export const bus = createMessenger<MessageMap>();
 
 In `shared/constants.ts`:
 
-```typescript
+```ts
 export enum MSG {
   CHANGE_BG = 'CHANGE_BG',
   GET_USER = 'GET_USER',
@@ -43,7 +43,7 @@ export enum MSG {
 
 Provide type contracts for request/response:
 
-```typescript
+```ts
 export const MESSAGE_SPEC = {
   [MSG.CHANGE_BG]: {
     req: {} as { color: string },
@@ -64,7 +64,7 @@ export const MESSAGE_SPEC = {
 
 In `shared/types.d.ts`:
 
-```typescript
+```ts
 export type MessageMap = MessageMapOf<typeof MSG, typeof MESSAGE_SPEC>;
 ```
 
@@ -74,7 +74,7 @@ export type MessageMap = MessageMapOf<typeof MSG, typeof MESSAGE_SPEC>;
 
 Send a message to the currently active tab:
 
-```typescript
+```ts
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -84,7 +84,7 @@ console.log(response); // { ok: true }
 ```
 
 **Signature**:
-```typescript
+```ts
 sendToActive<K extends keyof MessageMap>(
   type: K,
   payload?: MessageMap[K]['req'],
@@ -96,14 +96,14 @@ sendToActive<K extends keyof MessageMap>(
 
 Send a message to a specific tab by ID:
 
-```typescript
+```ts
 const tabId = 123;
 const response = await bus.sendToTab(tabId, MSG.GET_USER, { userId: 42 });
 console.log(response); // { name: 'John', email: 'john@example.com' }
 ```
 
 **Signature**:
-```typescript
+```ts
 sendToTab<K extends keyof MessageMap>(
   tabId: number,
   type: K,
@@ -116,7 +116,7 @@ sendToTab<K extends keyof MessageMap>(
 
 Add a timeout to prevent hanging on unresponsive contexts:
 
-```typescript
+```ts
 try {
   const response = await bus.sendToActive(
     MSG.CHANGE_BG,
@@ -134,7 +134,7 @@ try {
 
 Listen for specific message types with type-safe handlers:
 
-```typescript
+```ts
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -152,7 +152,7 @@ unsubscribe();
 ```
 
 **Signature**:
-```typescript
+```ts
 on<K extends keyof MessageMap>(
   type: K,
   handler: (
@@ -166,7 +166,7 @@ on<K extends keyof MessageMap>(
 
 Handlers can be async:
 
-```typescript
+```ts
 bus.on(MSG.GET_USER, async (payload, sender) => {
   const user = await fetchUser(payload.userId);
   return { name: user.name, email: user.email };
@@ -177,7 +177,7 @@ bus.on(MSG.GET_USER, async (payload, sender) => {
 
 Multiple listeners can handle the same message type. The first listener to respond wins:
 
-```typescript
+```ts
 // Listener 1
 bus.on(MSG.CHANGE_BG, (payload) => {
   if (payload.color === 'red') {
@@ -200,7 +200,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 
 The messaging system automatically converts errors to structured responses:
 
-```typescript
+```ts
 bus.on(MSG.GET_USER, async (payload) => {
   throw new Error('User not found');
 });
@@ -219,7 +219,7 @@ bus.on(MSG.GET_USER, async (payload) => {
 
 Use the `toErrorResponse` utility for custom errors:
 
-```typescript
+```ts
 import { toErrorResponse } from '@/shared/lib/error';
 
 bus.on(MSG.GET_USER, async (payload) => {
@@ -257,7 +257,7 @@ const Popup = () => {
 ```
 
 **Content Script** (`content/index.tsx`):
-```typescript
+```ts
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -270,7 +270,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 ### Example 2: Fetch User Data (Background → Content)
 
 **Background** (`background/runtime.ts`):
-```typescript
+```ts
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   const user = await bus.sendToTab(activeInfo.tabId, MSG.GET_USER, { userId: 1 });
   console.log('Current user:', user);
@@ -278,7 +278,7 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 ```
 
 **Content Script**:
-```typescript
+```ts
 bus.on(MSG.GET_USER, async (payload) => {
   const response = await fetch(`/api/users/${payload.userId}`);
   const user = await response.json();
@@ -292,7 +292,7 @@ bus.on(MSG.GET_USER, async (payload) => {
 
 Unsubscribe based on conditions:
 
-```typescript
+```ts
 const unsubscribe = bus.on(MSG.CHANGE_BG, (payload) => {
   if (someCondition) {
     unsubscribe(); // Stop listening
@@ -395,6 +395,6 @@ Register a message listener.
 
 ## Next Steps
 
-- Learn about [Storage](/core-modules/storage) for persisting data
-- Explore [Migration](/core-modules/migration) for version upgrades
-- Check [API Reference](/api/messaging-api) for detailed types
+- Learn about [Storage](./storage) for persisting data
+- Explore [Migration](./migration) for version upgrades
+- Check [API Reference](../api/messaging-api) for detailed types

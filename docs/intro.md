@@ -74,10 +74,10 @@ Chrome-Extension-Starter/
 
 ## What's Next?
 
-- Learn about the [Architecture](/architecture) of the extension
-- Explore [Core Modules](/core-modules/messaging) like messaging and storage
-- Check out [Development Guide](/development/building) for building and testing
-- See [API Reference](/api/types) for detailed type definitions
+- Learn about the [Architecture](./architecture) of the extension
+- Explore [Core Modules](./core-modules/messaging) like messaging and storage
+- Check out [Development Guide](./development/building) for building and testing
+- See [API Reference](./api/types) for detailed type definitions
 
 ## License
 
