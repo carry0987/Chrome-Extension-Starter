@@ -13,7 +13,26 @@ export type Version = string;
 export interface MigrationContext {
     currentVersion: Version;
     storedVersion: Version | null;
-    getStorage: <T>(area: 'sync' | 'local', key: string) => Promise<T | undefined>;
+    /**
+     * Get storage value by key
+     * @param area - Storage area (sync or local)
+     * @param key - Storage key
+     * @returns Value or undefined if not found
+     *
+     * @example
+     * const theme = await context.getStorage<string>('local', 'theme');
+     * const settings = await context.getStorage<MySettings>('sync', 'settings');
+     */
+    getStorage: <T = unknown>(area: 'sync' | 'local', key: string) => Promise<T | undefined>;
+    /**
+     * Get all storage values for an area
+     * @param area - Storage area (sync or local)
+     * @returns All stored values
+     *
+     * @example
+     * const allLocal = await context.getAllStorage('local');
+     */
+    getAllStorage: (area: 'sync' | 'local') => Promise<Record<string, unknown>>;
 }
 
 /**
@@ -124,8 +143,19 @@ export const runMigrations = async (): Promise<void> => {
     const context: MigrationContext = {
         currentVersion,
         storedVersion,
-        getStorage: async <T>(area: 'sync' | 'local', key: string) => {
-            return (await kv.get(area as any, key as any)) as T | undefined;
+        getStorage: async <T = unknown>(area: 'sync' | 'local', key: string): Promise<T | undefined> => {
+            // Use Chrome storage API directly to support dynamic keys
+            const storage = area === 'sync' ? chrome.storage.sync : chrome.storage.local;
+            const result = await new Promise<Record<string, T>>((resolve) => {
+                storage.get([key], (items) => resolve(items as Record<string, T>));
+            });
+            return result[key];
+        },
+        getAllStorage: async (area: 'sync' | 'local'): Promise<Record<string, unknown>> => {
+            const storage = area === 'sync' ? chrome.storage.sync : chrome.storage.local;
+            return new Promise((resolve) => {
+                storage.get(null, (items) => resolve(items));
+            });
         }
     };
 
@@ -143,14 +173,10 @@ export const runMigrations = async (): Promise<void> => {
                     // Apply migration results if returned
                     if (result) {
                         if (result.sync) {
-                            for (const [key, value] of Object.entries(result.sync)) {
-                                await kv.set('sync', key as any, value);
-                            }
+                            await chrome.storage.sync.set(result.sync);
                         }
                         if (result.local) {
-                            for (const [key, value] of Object.entries(result.local)) {
-                                await kv.set('local', key as any, value);
-                            }
+                            await chrome.storage.local.set(result.local);
                         }
                     }
                 } catch (error) {
@@ -205,14 +231,10 @@ export const runMigrations = async (): Promise<void> => {
             // Apply migration results if returned
             if (result) {
                 if (result.sync) {
-                    for (const [key, value] of Object.entries(result.sync)) {
-                        await kv.set('sync', key as any, value);
-                    }
+                    await chrome.storage.sync.set(result.sync);
                 }
                 if (result.local) {
-                    for (const [key, value] of Object.entries(result.local)) {
-                        await kv.set('local', key as any, value);
-                    }
+                    await chrome.storage.local.set(result.local);
                 }
             }
         } catch (error) {
