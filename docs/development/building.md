@@ -427,7 +427,7 @@ On a typical development machine:
 |------------|-------------|-------------|
 | Development | ~8s | ~2s |
 | Production | ~15s | ~5s |
-| Watch rebuild | - | <1s |
+| Watch rebuild | - | < 1s |
 
 ## Next Steps
 
