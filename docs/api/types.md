@@ -619,6 +619,6 @@ export interface MyAppSettings {
 
 ## Next Steps
 
-- Explore [Messaging API](./api/messaging-api) for detailed function signatures
-- Check [Storage API](./api/storage-api) for storage utilities
+- Explore [Messaging API](./messaging-api) for detailed function signatures
+- Check [Storage API](./storage-api) for storage utilities
 - Learn about [Core Modules](../core-modules/messaging) usage

@@ -25,7 +25,7 @@ const config: Config = {
     markdown: {
         hooks: {
             onBrokenMarkdownLinks: 'warn',
-            onBrokenMarkdownImages: 'ignore',
+            onBrokenMarkdownImages: 'throw',
         }
     },
 
@@ -66,17 +66,11 @@ const config: Config = {
             title: 'Chrome-Extension-Starter',
             items: [
                 {
-                    to: 'docs',
+                    to: 'docs/intro',
                     activeBasePath: 'docs',
                     position: 'left',
                     label: 'Document',
                 },
-                // {
-                //     to: 'docs/examples/hello-world',
-                //     activeBasePath: 'docs/examples',
-                //     label: 'Examples',
-                //     position: 'left',
-                // },
                 {
                     href: 'https://chromewebstore.google.com/detail/ifmlochoiniognoocigfjcmakkdbhofi?utm_source=item-share-cb',
                     label: 'Extension',

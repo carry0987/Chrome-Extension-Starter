@@ -27,8 +27,7 @@ The background service worker is the heart of your extension, running as a persi
 - `runtime.ts` — Runtime event handlers
 - `alarms.ts` — Scheduled task management
 
-```ts
-// Example: background/runtime.ts
+```ts showLineNumbers title="src/background/runtime.ts"
 import { logger } from '@/shared/lib/logger';
 
 chrome.runtime.onInstalled.addListener((details) => {
@@ -77,8 +76,7 @@ Preact-based user interfaces for popup and options pages.
 - Advanced configuration
 - Preference management
 
-```tsx
-// Example: pages/popup/index.tsx
+```tsx showLineNumbers title="src/pages/popup/index.tsx"
 import { bus } from '@/shared/lib/messaging';
 import { MSG } from '@/shared/constants';
 
@@ -197,10 +195,9 @@ export interface StorageSchema {
 
 ## Migration System
 
-The migration system handles version upgrades gracefully:
+The migration system handles version upgrades gracefully, it can be defined in `config.ts`:
 
-```ts
-// Define migrations in config.ts
+```ts showLineNumbers title="src/shared/config.ts"
 export const customMigrations: Migration[] = [
   {
     version: '1.1.0',

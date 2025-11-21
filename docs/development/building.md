@@ -256,7 +256,7 @@ const Button = () => {
 
 Add global styles in `src/shared/styles.css`:
 
-```css
+```css showLineNumbers title="src/shared/styles.css"
 @import "tailwindcss";
 
 /* Custom utilities */
@@ -371,8 +371,7 @@ environments: {
 
 Enable source maps for debugging:
 
-```ts
-// rsbuild.config.ts
+```ts showLineNumbers title="rsbuild.config.ts"
 export default defineConfig({
   output: {
     sourceMap: {
@@ -386,7 +385,7 @@ export default defineConfig({
 
 Split vendor code for better caching:
 
-```ts
+```ts showLineNumbers title="rsbuild.config.ts"
 export default defineConfig({
   performance: {
     chunkSplit: {
@@ -400,7 +399,7 @@ export default defineConfig({
 
 Copy additional assets:
 
-```ts
+```ts showLineNumbers title="rsbuild.config.ts"
 new rspack.CopyRspackPlugin({
   patterns: [
     { from: 'public/icons', to: 'icons' },
