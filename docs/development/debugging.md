@@ -25,8 +25,7 @@ Chrome extensions run in multiple isolated contexts, each requiring different de
 
 ### Console Logging
 
-```ts
-// background/runtime.ts
+```ts showLineNumbers title="src/background/runtime.ts"
 import { logger } from '@/shared/lib/logger';
 
 chrome.runtime.onInstalled.addListener((details) => {
@@ -50,8 +49,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 Monitor API calls in the **Network** tab:
 
-```ts
-// background/index.ts
+```ts showLineNumbers title="src/background/index.ts"
 const fetchData = async () => {
   const response = await fetch('https://api.example.com/data');
   const data = await response.json();
@@ -87,8 +85,7 @@ Content scripts run in the context of web pages:
 
 ### Console Logging
 
-```ts
-// content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 import { logger } from '@/shared/lib/logger';
 
 logger.info('Content script loaded');
@@ -111,8 +108,7 @@ bus.on(MSG.CHANGE_BG, (payload) => {
 
 Inspect injected elements:
 
-```ts
-// content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 const overlay = mount('ces-overlay');
 logger.info('Overlay mounted', overlay);
 ```
@@ -126,8 +122,7 @@ logger.info('Overlay mounted', overlay);
 
 Debug message passing:
 
-```ts
-// content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 bus.on(MSG.CHANGE_BG, (payload, sender) => {
   logger.debug('Message received from', sender.tab?.id, 'with payload', payload);
   
@@ -156,8 +151,7 @@ bus.on(MSG.CHANGE_BG, (payload, sender) => {
 
 ### Console Logging
 
-```ts
-// pages/popup/index.tsx
+```ts showLineNumbers title="src/pages/popup/index.tsx"
 import { logger } from '@/shared/lib/logger';
 
 const Popup = () => {
@@ -200,12 +194,12 @@ const fetchSettings = async () => {
 
 Track messages across contexts:
 
-```ts
-// popup/index.tsx
+```ts showLineNumbers title="src/pages/popup/index.tsx"
 logger.info('[POPUP] Sending CHANGE_BG message');
 await bus.sendToActive(MSG.CHANGE_BG, { color: 'red' });
+```
 
-// content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 bus.on(MSG.CHANGE_BG, (payload) => {
   logger.info('[CONTENT] Received CHANGE_BG message', payload);
   return { ok: true };
@@ -292,8 +286,7 @@ Keep logs when popup closes:
 
 Enable source maps for debugging TypeScript:
 
-```ts
-// rsbuild.config.ts
+```ts showLineNumbers title="rsbuild.config.ts"
 export default defineConfig({
   output: {
     sourceMap: {

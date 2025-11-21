@@ -20,16 +20,12 @@ The migration system allows you to:
 
 ### Migration Flow
 
-```
-Extension Update
-      ↓
-onInstalled Event
-      ↓
-Compare Versions (stored vs current)
-      ↓
-Run Pending Migrations (in order)
-      ↓
-Update Stored Version
+```mermaid
+flowchart TB
+    A[Extension Update] --> B[onInstalled Event]
+    B --> C["Compare Versions<br/>(stored vs current)"]
+    C --> D["Run Pending Migrations<br/>(in order)"]
+    D --> E[Update Stored Version]e
 ```
 
 ## Defining Migrations
@@ -85,7 +81,7 @@ export interface MigrationResult {
 
 Define migrations in `src/shared/config.ts`:
 
-```ts
+```ts showLineNumbers title="src/shared/config.ts"
 import type { Migration } from '@/shared/lib/migration';
 
 export const customMigrations: Migration[] = [
@@ -144,8 +140,7 @@ export const customMigrations: Migration[] = [
 
 Migrations run automatically on extension install/update:
 
-```ts
-// In background/runtime.ts
+```ts showLineNumbers title="src/background/runtime.ts"
 import { runMigrations } from '@/shared/lib/migration';
 import { logger } from '@/shared/lib/logger';
 
@@ -356,8 +351,7 @@ return {
 
 Test migration logic before deployment:
 
-```ts
-// In __tests__/migration.test.ts
+```ts showLineNumbers title="__tests__/migration.test.ts"
 import { describe, it, expect } from 'vitest';
 import { customMigrations } from '@/shared/config';
 
@@ -558,8 +552,7 @@ parseVersion('2.0');   // [2, 0, 0]
 
 ## Testing Migrations
 
-```ts
-// __tests__/migration.test.ts
+```ts showLineNumbers title="__tests__/migration.test.ts"
 import { describe, it, expect, beforeEach } from 'vitest';
 import { runMigrations } from '@/shared/lib/migration';
 import { kv } from '@/shared/lib/storage';

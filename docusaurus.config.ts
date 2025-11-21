@@ -23,6 +23,7 @@ const config: Config = {
 
     // Global markdown configuration
     markdown: {
+        mermaid: true,
         hooks: {
             onBrokenMarkdownLinks: 'warn',
             onBrokenMarkdownImages: 'throw',
@@ -105,7 +106,7 @@ const config: Config = {
             playgroundPosition: 'bottom',
         }
     } satisfies Preset.ThemeConfig,
-    themes: ['@docusaurus/theme-live-codeblock']
+    themes: ['@docusaurus/theme-mermaid']
 };
 
 export default config;

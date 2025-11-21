@@ -25,7 +25,7 @@ Automating builds, tests, and releases for Chrome Extension Starter using GitHub
 
 Create `.github/workflows/ci.yml`:
 
-```yaml
+```yml
 name: CI
 
 on:
@@ -79,7 +79,7 @@ jobs:
 
 Create `.github/workflows/release.yml` to package artifacts when a tag is pushed:
 
-```yaml
+```yml
 name: Release
 
 on:
@@ -121,7 +121,7 @@ jobs:
 
 Enhance with GitHub Releases:
 
-```yaml
+```yml
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
@@ -136,7 +136,7 @@ Enhance with GitHub Releases:
 
 Automate Chrome Web Store uploads using community actions (requires API keys):
 
-```yaml
+```yml
       - name: Publish to Chrome Web Store
         uses: trmcnvn/chrome-extension-upload-action@v2
         with:

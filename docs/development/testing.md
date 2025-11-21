@@ -524,8 +524,7 @@ it('should debug values', () => {
 
 ### GitHub Actions
 
-```yaml
-# .github/workflows/ci.yml
+```yml showLineNumbers title=".github/workflows/ci.yml"
 name: CI
 
 on: [push, pull_request]
@@ -552,8 +551,7 @@ jobs:
 ### Tests Not Running
 
 **Check test file pattern**:
-```ts
-// vitest.config.ts
+```ts showLineNumbers title="vitest.config.ts"
 export default defineConfig({
   test: {
     include: ['__tests__/**/*.test.{ts,tsx}']
@@ -564,8 +562,7 @@ export default defineConfig({
 ### Import Errors
 
 **Configure path aliases**:
-```ts
-// vitest.config.ts
+```ts showLineNumbers title="vitest.config.ts"
 export default defineConfig({
   resolve: {
     alias: {

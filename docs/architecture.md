@@ -108,20 +108,12 @@ Shared utilities, types, and configuration used across all contexts.
 
 ### Message Flow
 
-```
-┌─────────────┐
-│   Popup     │
-└──────┬──────┘
-       │ sendToActive()
-       │
-       ▼
-┌─────────────┐      ┌─────────────┐
-│ Background  │◄────►│   Content   │
-└─────────────┘      └─────────────┘
-       │                    │
-       │                    │ on()
-       ▼                    ▼
-   Storage API         DOM Manipulation
+```mermaid
+flowchart TB
+    A[Popup] -->|"sendToActive()"| B[Background]
+    B <--> C[Content]
+    B --> D[Storage API]
+    C -->|"on()"| E[DOM Manipulation]
 ```
 
 ### Type-Safe Messaging

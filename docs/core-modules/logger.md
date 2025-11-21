@@ -69,8 +69,7 @@ logger.error('Failed to save settings', error);
 
 ### Example 1: Background Service Worker
 
-```ts
-// background/runtime.ts
+```ts showLineNumbers title="src/background/runtime.ts"
 import { logger } from '@/shared/lib/logger';
 
 chrome.runtime.onInstalled.addListener((details) => {
@@ -84,8 +83,7 @@ chrome.runtime.onStartup.addListener(() => {
 
 ### Example 2: Message Handling
 
-```ts
-// content/index.tsx
+```ts showLineNumbers title="src/content/index.tsx"
 import { bus } from '@/shared/lib/messaging';
 import { logger } from '@/shared/lib/logger';
 import { MSG } from '@/shared/constants';
@@ -383,8 +381,7 @@ const sendToRemote = async (logData: any) => {
 
 Mock the logger in tests:
 
-```ts
-// __tests__/setup.ts
+```ts showLineNumbers title="__tests__/setup.ts"
 import { vi } from 'vitest';
 
 vi.mock('@/shared/lib/logger', () => ({

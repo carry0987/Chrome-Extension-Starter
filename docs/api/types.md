@@ -535,8 +535,7 @@ if (isErrorResponse(response)) {
 
 ### Custom Message Types
 
-```ts
-// In shared/constants.ts
+```ts showLineNumbers title="src/shared/constants.ts"
 export enum MSG {
   CHANGE_BG = 'CHANGE_BG',
   GET_USER = 'GET_USER',
@@ -564,8 +563,7 @@ export const MESSAGE_SPEC = {
 
 ### Custom Storage Schema
 
-```ts
-// In shared/types.d.ts
+```ts showLineNumbers title="src/shared/types.d.ts"
 export interface StorageSchema {
   local: {
     darkMode: boolean;
