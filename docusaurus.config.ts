@@ -3,8 +3,8 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-    title: 'Dinosaurs Demo',
-    tagline: 'Dinosaurs are cool',
+    title: 'Chrome-Extension-Starter',
+    tagline: 'Chrome Extension Starter, using TypeScript, Preact, TailwindCSS, Vitest and RSBuild.',
     favicon: 'img/favicon.ico',
 
     // Set the production url of your site here
