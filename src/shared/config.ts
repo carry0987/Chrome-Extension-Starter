@@ -47,53 +47,6 @@ export const settingsManager = new SettingManager<Settings>(defaultSettings);
  * - local: Object with keys/values to update in local storage
  *
  * Or return void/undefined to handle storage updates manually.
- *
- * @example
- * export const customMigrations: Migration[] = [
- *     {
- *         version: '1.0.0',
- *         description: 'Initial setup - set default values',
- *         migrate: async (context) => {
- *             // Declarative approach - return what to update
- *             return {
- *                 local: {
- *                     darkMode: false,
- *                     username: 'Guest'
- *                 },
- *                 sync: {
- *                     settings: {
- *                         notifications: true
- *                     }
- *                 }
- *             };
- *         }
- *     },
- *     {
- *         version: '1.1.0',
- *         description: 'Migrate old settings structure',
- *         migrate: async (context) => {
- *             // Can read existing values
- *             const oldTheme = await context.getStorage<string>('local', 'theme');
- *
- *             return {
- *                 local: {
- *                     darkMode: oldTheme === 'dark'
- *                 }
- *             };
- *         }
- *     },
- *     {
- *         version: '1.2.0',
- *         description: 'Complex migration with manual storage',
- *         migrate: async (context) => {
- *             // Can also handle storage manually (imperative)
- *             // Just don't return anything
- *             const data = await context.getStorage('sync', 'data');
- *             // ... process data ...
- *             // ... use kv.set() directly if needed ...
- *         }
- *     }
- * ];
  */
 export const customMigrations: Migration[] = [
     // Add your migrations here, or leave empty for no migrations
