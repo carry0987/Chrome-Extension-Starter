@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-starter",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Chrome Extension Starter, using TypeScript, Preact, TailwindCSS, Vitest and RSBuild.",
   "type": "module",
   "scripts": {
