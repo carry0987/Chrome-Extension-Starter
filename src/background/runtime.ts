@@ -51,7 +51,12 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     try {
         const tab = await chrome.tabs.get(tabId);
         await applyActionPolicy(tabId, tab.url);
-    } catch (e) {
+    } catch (error: any) {
+        // Tab might be closed before we can get its info - just ignore it
+        if (error?.message?.includes('No tab with id')) {
+            logger.debug(`[runtime] Tab ${tabId} closed before activation handler completed`);
+            return;
+        }
         // If URL not available (e.g., restricted), disable by default
         await applyActionPolicy(tabId, null);
     }
@@ -80,5 +85,6 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
     // Apply action policy to all existing tabs
     const tabs = await chrome.tabs.query({});
-    await Promise.all(tabs.map((t) => applyActionPolicy(t.id!, t.url)));
+    // Use Promise.allSettled to continue even if some tabs are closed during processing
+    await Promise.allSettled(tabs.map((t) => applyActionPolicy(t.id!, t.url)));
 });
