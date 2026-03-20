@@ -60,14 +60,14 @@ const Popup = () => {
 
     if (loading) {
         return (
-            <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5">
+            <div className="min-w-90 bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5">
                 <div className="text-center text-sm text-gray-500">{t('loadingSettings')}</div>
             </div>
         );
     }
 
     return (
-        <div className="min-w-[360px] bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5 space-y-4">
+        <div className="min-w-90 bg-white dark:bg-(--color-surface-dark) text-gray-900 dark:text-gray-100 p-5 space-y-4">
             <header className="flex items-center justify-between">
                 <h1 className="text-lg font-semibold">{t('popupTitle')}</h1>
                 <span className="text-sm text-gray-500 dark:text-gray-400">{new Date().toLocaleTimeString()}</span>
