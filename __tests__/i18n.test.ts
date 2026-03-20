@@ -10,7 +10,6 @@ const mockChrome = {
     }
 };
 
-// @ts-expect-error
 global.chrome = mockChrome as any;
 
 describe('i18n', () => {

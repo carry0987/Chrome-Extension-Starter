@@ -67,10 +67,13 @@ const Options = () => {
 
                 <section className="space-y-4">
                     <div>
-                        <label className="block mb-1 text-sm font-medium text-gray-600 dark:text-gray-300">
+                        <label
+                            htmlFor="favoriteColor"
+                            className="block mb-1 text-sm font-medium text-gray-600 dark:text-gray-300">
                             {t('favoriteColor')}
                         </label>
                         <select
+                            id="favoriteColor"
                             className="input"
                             value={settings.favoriteColor}
                             onChange={(e) => setSettings({ ...settings, favoriteColor: e.currentTarget.value })}>
@@ -83,18 +86,18 @@ const Options = () => {
                         </select>
                     </div>
 
-                    <label className="flex items-center gap-2 text-sm">
+                    <div className="flex items-center gap-2 text-sm">
                         <ToggleInput
                             label={t('likesColor')}
                             checked={settings.likesColor}
                             onChange={(checked) => setSettings({ ...settings, likesColor: checked })}
                         />
-                    </label>
+                    </div>
                 </section>
 
                 <footer className="flex justify-end items-center gap-3 pt-2">
                     <div className="text-sm text-green-600 dark:text-green-400 h-5">{status}</div>
-                    <button onClick={saveOptions} className="btn-primary">
+                    <button type="button" onClick={saveOptions} className="btn-primary">
                         {t('save')}
                     </button>
                 </footer>
@@ -103,4 +106,5 @@ const Options = () => {
     );
 };
 
-render(<Options />, document.getElementById('root')!);
+const root = document.getElementById('root');
+if (root) render(<Options />, root);

@@ -17,6 +17,12 @@
     "lineWidth": 120,
     "attributePosition": "auto"
   },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -36,6 +42,16 @@
       "includes": ["**/*.json", ".github/**/*.yml"],
       "formatter": {
         "indentWidth": 2
+      }
+    },
+    {
+      "includes": ["__tests__/**", "**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
       }
     }
   ]

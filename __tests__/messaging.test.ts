@@ -16,7 +16,6 @@ const mockTabs = {
     sendMessage: vi.fn()
 };
 
-// @ts-expect-error - Mock global chrome object
 global.chrome = {
     runtime: mockRuntime,
     tabs: mockTabs
@@ -48,7 +47,7 @@ describe('Messaging System', () => {
                 return null;
             });
 
-            mockRuntime.onMessage.addListener((msg: any, sender: any, sendResponse: any) => {
+            mockRuntime.onMessage.addListener((msg: any, _sender: any, sendResponse: any) => {
                 const result = handler(msg);
                 if (result) {
                     sendResponse(result);
@@ -129,7 +128,7 @@ describe('Messaging System', () => {
         });
 
         it('should handle no active tab', async () => {
-            mockTabs.query.mockImplementation((query, callback) => {
+            mockTabs.query.mockImplementation((_query, callback) => {
                 callback([]);
             });
 
@@ -165,7 +164,7 @@ describe('Messaging System', () => {
         it('should handle background error response', async () => {
             const errorResponse = { error: 'Background error' };
 
-            mockRuntime.sendMessage.mockImplementation((msg, callback) => {
+            mockRuntime.sendMessage.mockImplementation((_msg, callback) => {
                 callback(errorResponse);
             });
 
@@ -228,7 +227,7 @@ describe('Messaging System', () => {
         it('should handle chrome.runtime.lastError', async () => {
             const messenger = createMessenger<TestMessageMap>();
 
-            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+            mockRuntime.sendMessage.mockImplementation((_msg: any, callback: any) => {
                 mockRuntime.lastError = { message: 'Could not establish connection' };
                 callback(undefined);
             });
@@ -244,7 +243,7 @@ describe('Messaging System', () => {
         it('should timeout if no response within specified time', async () => {
             const messenger = createMessenger<TestMessageMap>();
 
-            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+            mockRuntime.sendMessage.mockImplementation((_msg: any, _callback: any) => {
                 // Simulate no response (callback not called)
             });
 
@@ -258,7 +257,7 @@ describe('Messaging System', () => {
             const messenger = createMessenger<TestMessageMap>();
             const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
 
-            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+            mockRuntime.sendMessage.mockImplementation((_msg: any, callback: any) => {
                 setTimeout(() => {
                     callback({ echo: 'test' });
                 }, 50);
@@ -323,7 +322,7 @@ describe('Messaging System', () => {
             vi.useFakeTimers();
             const messenger = createMessenger<TestMessageMap>();
 
-            mockRuntime.sendMessage.mockImplementation((msg: any, callback: any) => {
+            mockRuntime.sendMessage.mockImplementation((_msg: any, callback: any) => {
                 setTimeout(() => {
                     callback({ echo: 'too late' });
                 }, 150);
@@ -352,7 +351,7 @@ describe('Messaging System', () => {
             });
 
             // Register handler
-            mockRuntime.onMessage.addListener((msg: any, sender: any, sendResponse: any) => {
+            mockRuntime.onMessage.addListener((msg: any, _sender: any, sendResponse: any) => {
                 if (msg.type === messageType) {
                     sendResponse(expectedResponse);
                     return true;

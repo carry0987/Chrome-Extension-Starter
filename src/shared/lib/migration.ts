@@ -39,15 +39,15 @@ export interface MigrationContext {
  * Migration result - what to update in storage
  */
 export interface MigrationResult {
-    sync?: Record<string, any>;
-    local?: Record<string, any>;
+    sync?: Record<string, unknown>;
+    local?: Record<string, unknown>;
 }
 
 /**
  * Migration function type
  * Receives context and returns storage updates to apply
  */
-export type MigrationFn = (context: MigrationContext) => Promise<void | MigrationResult>;
+export type MigrationFn = (context: MigrationContext) => Promise<undefined | MigrationResult>;
 
 /**
  * Migration definition interface

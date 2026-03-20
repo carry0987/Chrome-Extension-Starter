@@ -1,4 +1,4 @@
-import { RESTRICTED } from '@/shared/constants';
+import { RESTRICTED, type RestrictedScheme } from '@/shared/constants';
 import { logger } from '@/shared/lib/logger';
 import { runMigrations } from '@/shared/lib/migration';
 
@@ -8,7 +8,7 @@ const isRestrictedUrl = (raw?: string | null) => {
 
     // fast-path scheme check (works for custom schemes like chrome://)
     const scheme = raw.split(':', 1)[0]?.toLowerCase();
-    if (RESTRICTED.schemes.includes(scheme as any)) return true;
+    if (RESTRICTED.schemes.includes(scheme as RestrictedScheme)) return true;
 
     // http/https host checks
     if (scheme === 'http' || scheme === 'https') {
@@ -51,9 +51,9 @@ chrome.tabs.onActivated.addListener(async ({ tabId }) => {
     try {
         const tab = await chrome.tabs.get(tabId);
         await applyActionPolicy(tabId, tab.url);
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Tab might be closed before we can get its info - just ignore it
-        if (error?.message?.includes('No tab with id')) {
+        if (error instanceof Error && error.message?.includes('No tab with id')) {
             logger.debug(`[runtime] Tab ${tabId} closed before activation handler completed`);
             return;
         }
@@ -86,5 +86,5 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     // Apply action policy to all existing tabs
     const tabs = await chrome.tabs.query({});
     // Use Promise.allSettled to continue even if some tabs are closed during processing
-    await Promise.allSettled(tabs.map((t) => applyActionPolicy(t.id!, t.url)));
+    await Promise.allSettled(tabs.filter((t) => t.id != null).map((t) => applyActionPolicy(t.id as number, t.url)));
 });

@@ -10,7 +10,6 @@ const mockStorage = {
     }
 };
 
-// @ts-expect-error - Mock global chrome object
 global.chrome = {
     storage: mockStorage
 } as any;
@@ -39,7 +38,7 @@ describe('SettingManager', () => {
 
     describe('reset()', () => {
         it('should reset settings to defaults', async () => {
-            mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
+            mockStorage.sync.set.mockImplementation((_items, callback) => callback?.());
 
             const result = await manager.reset();
 
@@ -72,10 +71,10 @@ describe('SettingManager', () => {
         });
 
         it('should initialize if settings are missing', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
+            mockStorage.sync.get.mockImplementation((_keys, callback) => {
                 callback?.({}); // No settings stored
             });
-            mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
+            mockStorage.sync.set.mockImplementation((_items, callback) => callback?.());
 
             const result = await manager.load();
 
@@ -84,10 +83,10 @@ describe('SettingManager', () => {
         });
 
         it('should initialize if settings are corrupted', async () => {
-            mockStorage.sync.get.mockImplementation((keys, callback) => {
+            mockStorage.sync.get.mockImplementation((_keys, callback) => {
                 callback?.({ settings: 'invalid' }); // Corrupted data (not an object)
             });
-            mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
+            mockStorage.sync.set.mockImplementation((_items, callback) => callback?.());
 
             const result = await manager.load();
 
@@ -98,7 +97,7 @@ describe('SettingManager', () => {
             mockStorage.sync.get.mockImplementation(() => {
                 throw new Error('Storage error');
             });
-            mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
+            mockStorage.sync.set.mockImplementation((_items, callback) => callback?.());
 
             const result = await manager.load();
 
@@ -115,7 +114,7 @@ describe('SettingManager', () => {
                 enabled: false,
                 count: 10
             };
-            mockStorage.sync.set.mockImplementation((items, callback) => callback?.());
+            mockStorage.sync.set.mockImplementation((_items, callback) => callback?.());
 
             await manager.save(newSettings);
 

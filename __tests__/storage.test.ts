@@ -23,7 +23,6 @@ const mockStorageAreas = {
     }
 };
 
-// @ts-expect-error - Mock global chrome object
 global.chrome = {
     storage: mockStorageAreas
 } as any;
@@ -56,7 +55,7 @@ describe('createTypedStorage', () => {
 
     describe('get()', () => {
         it('should get value from local storage with fallback', async () => {
-            mockStorageAreas.local.get.mockImplementation((keys, callback) => {
+            mockStorageAreas.local.get.mockImplementation((_keys, callback) => {
                 callback({ theme: 'dark' });
             });
 
@@ -80,7 +79,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should get value from sync storage', async () => {
-            mockStorageAreas.sync.get.mockImplementation((keys, callback) => {
+            mockStorageAreas.sync.get.mockImplementation((_keys, callback) => {
                 callback({ username: 'testuser' });
             });
 
@@ -90,7 +89,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should get value from managed storage (read-only)', async () => {
-            mockStorageAreas.managed.get.mockImplementation((keys, callback) => {
+            mockStorageAreas.managed.get.mockImplementation((_keys, callback) => {
                 callback({ policy: 'strict' });
             });
 
@@ -100,7 +99,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should get value from session storage', async () => {
-            mockStorageAreas.session.get.mockImplementation((keys, callback) => {
+            mockStorageAreas.session.get.mockImplementation((_keys, callback) => {
                 callback({ token: 'abc123' });
             });
 
@@ -125,7 +124,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should get all items without defaults', async () => {
-            mockStorageAreas.sync.get.mockImplementation((keys, callback) => {
+            mockStorageAreas.sync.get.mockImplementation((_keys, callback) => {
                 callback({ username: 'testuser' });
             });
 
@@ -137,7 +136,7 @@ describe('createTypedStorage', () => {
 
     describe('set()', () => {
         it('should set value in local storage', async () => {
-            mockStorageAreas.local.set.mockImplementation((items, callback) => {
+            mockStorageAreas.local.set.mockImplementation((_items, callback) => {
                 callback?.();
             });
 
@@ -147,7 +146,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should set value in sync storage', async () => {
-            mockStorageAreas.sync.set.mockImplementation((items, callback) => {
+            mockStorageAreas.sync.set.mockImplementation((_items, callback) => {
                 callback?.();
             });
 
@@ -157,7 +156,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should set value in session storage', async () => {
-            mockStorageAreas.session.set.mockImplementation((items, callback) => {
+            mockStorageAreas.session.set.mockImplementation((_items, callback) => {
                 callback?.();
             });
 
@@ -169,7 +168,7 @@ describe('createTypedStorage', () => {
 
     describe('setAll()', () => {
         it('should set multiple items in local storage', async () => {
-            mockStorageAreas.local.set.mockImplementation((items, callback) => {
+            mockStorageAreas.local.set.mockImplementation((_items, callback) => {
                 callback?.();
             });
 
@@ -179,7 +178,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should set multiple items in sync storage', async () => {
-            mockStorageAreas.sync.set.mockImplementation((items, callback) => {
+            mockStorageAreas.sync.set.mockImplementation((_items, callback) => {
                 callback?.();
             });
 
@@ -194,7 +193,7 @@ describe('createTypedStorage', () => {
 
     describe('remove()', () => {
         it('should remove single key from local storage', async () => {
-            mockStorageAreas.local.remove.mockImplementation((keys, callback) => {
+            mockStorageAreas.local.remove.mockImplementation((_keys, callback) => {
                 callback?.();
             });
 
@@ -204,7 +203,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should remove multiple keys from sync storage', async () => {
-            mockStorageAreas.sync.remove.mockImplementation((keys, callback) => {
+            mockStorageAreas.sync.remove.mockImplementation((_keys, callback) => {
                 callback?.();
             });
 
@@ -214,7 +213,7 @@ describe('createTypedStorage', () => {
         });
 
         it('should remove key from session storage', async () => {
-            mockStorageAreas.session.remove.mockImplementation((keys, callback) => {
+            mockStorageAreas.session.remove.mockImplementation((_keys, callback) => {
                 callback?.();
             });
 

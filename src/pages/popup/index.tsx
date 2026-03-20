@@ -104,10 +104,14 @@ const Popup = () => {
             </section>
 
             <section className="flex justify-end gap-2">
-                <button onClick={() => setCount((c) => c + 1)} className="btn-primary">
+                <button type="button" onClick={() => setCount((c) => c + 1)} className="btn-primary">
                     {t('clickMe')}
                 </button>
-                <button onClick={changeBackground} className="btn-secondary" title={t('changeBackground')}>
+                <button
+                    type="button"
+                    onClick={changeBackground}
+                    className="btn-secondary"
+                    title={t('changeBackground')}>
                     {t('changeBackground')}
                 </button>
             </section>
@@ -115,4 +119,5 @@ const Popup = () => {
     );
 };
 
-render(<Popup />, document.getElementById('root')!);
+const root = document.getElementById('root');
+if (root) render(<Popup />, root);
