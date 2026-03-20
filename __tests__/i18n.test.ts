@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { t, getLocale, getAcceptLanguages, detectUserLanguage } from '@/shared/lib/i18n';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { detectUserLanguage, getAcceptLanguages, getLocale, t } from '@/shared/lib/i18n';
 
 // Mock chrome.i18n API
 const mockChrome = {
@@ -10,7 +10,7 @@ const mockChrome = {
     }
 };
 
-// @ts-ignore
+// @ts-expect-error
 global.chrome = mockChrome as any;
 
 describe('i18n', () => {

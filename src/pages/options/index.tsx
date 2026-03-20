@@ -1,9 +1,9 @@
-import { settingsManager, type Settings } from '@/shared/config';
-import { ToggleInput } from '@/shared/components';
-import { logger } from '@/shared/lib/logger';
-import { t } from '@/shared/lib/i18n';
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { ToggleInput } from '@/shared/components';
+import { type Settings, settingsManager } from '@/shared/config';
+import { t } from '@/shared/lib/i18n';
+import { logger } from '@/shared/lib/logger';
 
 // Import styles
 import '@/shared/styles.css';

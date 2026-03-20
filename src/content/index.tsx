@@ -1,10 +1,11 @@
 // Content script entry
-import { bus } from '@/shared/lib/messaging';
-import { t } from '@/shared/lib/i18n';
-import { MSG } from '@/shared/constants';
-import { mount } from '@/shared/lib/dom';
+
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { MSG } from '@/shared/constants';
+import { mount } from '@/shared/lib/dom';
+import { t } from '@/shared/lib/i18n';
+import { bus } from '@/shared/lib/messaging';
 
 const Overlay = () => {
     const [bg, setBg] = useState<string | null>(null);

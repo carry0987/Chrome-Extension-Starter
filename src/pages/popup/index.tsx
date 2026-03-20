@@ -1,10 +1,10 @@
-import { bus } from '@/shared/lib/messaging';
-import { logger } from '@/shared/lib/logger';
-import { t } from '@/shared/lib/i18n';
-import { MSG } from '@/shared/constants';
-import { settingsManager, type Settings } from '@/shared/config';
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import { type Settings, settingsManager } from '@/shared/config';
+import { MSG } from '@/shared/constants';
+import { t } from '@/shared/lib/i18n';
+import { logger } from '@/shared/lib/logger';
+import { bus } from '@/shared/lib/messaging';
 
 // Import styles
 import '@/shared/styles.css';

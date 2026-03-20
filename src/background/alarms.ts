@@ -1,8 +1,8 @@
+import { settingsManager } from '@/shared/config';
+import { ALARMS } from '@/shared/constants';
 import { logger } from '@/shared/lib/logger';
 import { kv } from '@/shared/lib/storage';
 import { typedKeys } from '@/shared/lib/utils';
-import { ALARMS } from '@/shared/constants';
-import { settingsManager } from '@/shared/config';
 
 const INTERVAL_MIN = 0.1; // 6s polling interval
 const DAILY_AT = '08:00'; // local time HH:mm

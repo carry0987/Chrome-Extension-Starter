@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { SettingManager } from '@/shared/lib/setting';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Settings } from '@/shared/config';
+import { SettingManager } from '@/shared/lib/setting';
 
 // Mock chrome.storage API
 const mockStorage = {
@@ -10,7 +10,7 @@ const mockStorage = {
     }
 };
 
-// @ts-ignore - Mock global chrome object
+// @ts-expect-error - Mock global chrome object
 global.chrome = {
     storage: mockStorage
 } as any;
