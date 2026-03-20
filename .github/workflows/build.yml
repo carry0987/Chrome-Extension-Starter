@@ -11,17 +11,16 @@ jobs:
   check-commit:
     runs-on: ubuntu-latest
     outputs:
-      status: ${{ steps.check.outputs.status }}
+      status: ${{ steps.check.outputs.found }}
       version: ${{ steps.check.outputs.version }}
     steps:
-      - name: Check commit message version format
+      - name: Extract version from commit message
         id: check
-        run: |
-          echo "status=false" >> $GITHUB_OUTPUT
-          if [[ "${{ github.event.head_commit.message }}" =~ ^Bump\ to\ (v[0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-            echo "status=true" >> $GITHUB_OUTPUT
-            echo "version=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-          fi
+        uses: carry0987/version-extractor@v1
+        with:
+          tag: ${{ github.event.head_commit.message }}
+          extract-pattern: 'Bump to (v\d+\.\d+\.\d+)'
+          fail-on-error: false
 
   build:
     needs: check-commit
@@ -34,12 +33,12 @@ jobs:
         node-version: [24]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: latest
 

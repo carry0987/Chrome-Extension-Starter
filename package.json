@@ -35,22 +35,22 @@
   },
   "homepage": "https://github.com/carry0987/Chrome-Extension-Starter#readme",
   "dependencies": {
-    "preact": "^10.28.0",
+    "preact": "^10.29.0",
     "tailgrids": "^2.3.0"
   },
   "devDependencies": {
-    "@carry0987/utils": "^3.9.3",
-    "@rsbuild/core": "^1.6.12",
-    "@rsbuild/plugin-preact": "^1.6.0",
-    "@rsbuild/plugin-type-check": "^1.3.2",
-    "@tailwindcss/postcss": "^4.1.17",
+    "@carry0987/utils": "^3.10.3",
+    "@rsbuild/core": "^1.7.3",
+    "@rsbuild/plugin-preact": "^1.7.2",
+    "@rsbuild/plugin-type-check": "^1.3.4",
+    "@tailwindcss/postcss": "^4.2.2",
     "@testing-library/preact": "^3.2.4",
-    "@types/chrome": "^0.1.32",
-    "@types/node": "^24.10.1",
-    "@vitest/coverage-v8": "4.0.15",
-    "jsdom": "^27.2.0",
-    "prettier": "^3.7.4",
-    "tailwindcss": "^4.1.17",
-    "vitest": "^4.0.15"
+    "@types/chrome": "^0.1.38",
+    "@types/node": "^25.5.0",
+    "@vitest/coverage-v8": "4.1.0",
+    "jsdom": "^29.0.1",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.2.2",
+    "vitest": "^4.1.0"
   }
 }
