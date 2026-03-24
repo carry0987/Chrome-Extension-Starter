@@ -27,4 +27,4 @@ Designed for fast development, clean architecture, and strongly typed communicat
 
 ## 📜 License
 
-[MIT](LICENSE) © 2025 carry0987
+[MIT](LICENSE) © 2026 carry0987
