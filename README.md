@@ -1,6 +1,6 @@
 # Chrome Extension Starter
 
-![build](https://github.com/carry0987/Chrome-Extension-Starter/actions/workflows/build.yml/badge.svg)
+![release](https://github.com/carry0987/Chrome-Extension-Starter/actions/workflows/release.yml/badge.svg)
 ![CI](https://github.com/carry0987/Chrome-Extension-Starter/actions/workflows/ci.yml/badge.svg)
 
 A modern **Chrome Extension Starter Template** built with **TypeScript**, **Preact**, **TailwindCSS**, **RSBuild**, and **Vitest** — fully compatible with **Manifest V3**.
