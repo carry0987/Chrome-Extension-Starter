@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.4.1...v1.5.0) (2026-03-28)
+
+
+### Features
+
+* Add typecheck ([2495283](https://github.com/carry0987/Chrome-Extension-Starter/commit/24952833441812be120520428ec02e5b8be233b0))
+
 ## [1.4.1](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.4.0...v1.4.1) (2026-03-28)
 
 
