@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.5.0...v1.6.0) (2026-03-28)
+
+
+### Features
+
+* Add run_at to manifest ([f18e14d](https://github.com/carry0987/Chrome-Extension-Starter/commit/f18e14d237ea28477c31fa02c37ee445d20b1b49))
+* Ignore 'Could not establish connection' errors ([f28df39](https://github.com/carry0987/Chrome-Extension-Starter/commit/f28df390dec95ff9ea73d47f5709f845aa13df78))
+
 ## [1.5.0](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.4.1...v1.5.0) (2026-03-28)
 
 
