@@ -87,7 +87,13 @@ export const createMessenger = <M extends Record<string, { req?: unknown; res?: 
                 if (!id) return resolve(undefined);
                 sendToTab(id, type, payload as M[K] extends { req: infer P } ? P : undefined, opts)
                     .then((r) => resolve(r as unknown as TRes | undefined))
-                    .catch(reject);
+                    .catch((err) => {
+                        // Content script not ready (page loading, restricted page, etc.)
+                        if (err instanceof Error && err.message.includes('Could not establish connection')) {
+                            return resolve(undefined);
+                        }
+                        reject(err);
+                    });
             });
         });
 
