@@ -1,6 +1,6 @@
 type Level = 'debug' | 'info' | 'warn' | 'error';
 const NS = '[Chrome-Extension-Starter]';
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV !== 'production';
 
 const noop = () => {};
 
