@@ -53,9 +53,7 @@ const Popup = () => {
         };
 
         const res = await bus.sendToActive(MSG.CHANGE_BG, { color: colorMap[color] || '#3b82f6' });
-        if (res === undefined) {
-            logger.warn('Content script not available on this page');
-        } else if (!res.ok) {
+        if (res !== undefined && !res.ok) {
             logger.error('Failed to change background color');
         }
     };
