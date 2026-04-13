@@ -43,6 +43,10 @@
     "message": "最愛的顏色",
     "description": "最愛顏色設定標籤"
   },
+  "favoriteColorDescription": {
+    "message": "選擇擴充功能操作時使用的主色。",
+    "description": "最愛顏色選單的輔助文字"
+  },
   "colorRed": {
     "message": "紅色",
     "description": "顏色選項：紅色"
@@ -94,6 +98,30 @@
   "failedToSave": {
     "message": "儲存設定失敗",
     "description": "儲存設定錯誤"
+  },
+  "optionsDescription": {
+    "message": "使用 TailGrids 風格的表單控制來設定這個擴充功能。",
+    "description": "顯示在選項頁頂部的描述"
+  },
+  "appearanceTab": {
+    "message": "外觀",
+    "description": "外觀設定分頁標題"
+  },
+  "behaviorTab": {
+    "message": "行為",
+    "description": "行為設定分頁標題"
+  },
+  "likesColorDescription": {
+    "message": "套用變更時使用目前選擇的顏色。",
+    "description": "顏色偏好開關的輔助文字"
+  },
+  "enabled": {
+    "message": "已啟用",
+    "description": "通用啟用狀態標籤"
+  },
+  "disabled": {
+    "message": "已停用",
+    "description": "通用停用狀態標籤"
   },
   "backgroundChanged": {
     "message": "背景已設為 $COLOR$",

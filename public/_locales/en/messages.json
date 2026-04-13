@@ -43,6 +43,10 @@
     "message": "Favorite Color",
     "description": "Favorite color setting label"
   },
+  "favoriteColorDescription": {
+    "message": "Choose the accent color used by extension actions.",
+    "description": "Helper text for the favorite color select"
+  },
   "colorRed": {
     "message": "Red",
     "description": "Color option: red"
@@ -94,6 +98,30 @@
   "failedToSave": {
     "message": "Failed to save settings",
     "description": "Error saving settings"
+  },
+  "optionsDescription": {
+    "message": "Configure the extension using TailGrids-first form controls.",
+    "description": "Description shown at the top of the options page"
+  },
+  "appearanceTab": {
+    "message": "Appearance",
+    "description": "Tab title for appearance settings"
+  },
+  "behaviorTab": {
+    "message": "Behavior",
+    "description": "Tab title for behavior settings"
+  },
+  "likesColorDescription": {
+    "message": "Use the selected color when applying changes.",
+    "description": "Helper text for the color preference toggle"
+  },
+  "enabled": {
+    "message": "Enabled",
+    "description": "Generic enabled state label"
+  },
+  "disabled": {
+    "message": "Disabled",
+    "description": "Generic disabled state label"
   },
   "backgroundChanged": {
     "message": "Background set to $COLOR$",
