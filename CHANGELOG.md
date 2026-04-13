@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.6.0...v1.7.0) (2026-04-13)
+
+
+### Features
+
+* **components:** add TailGrids core UI primitives ([0cfe6c6](https://github.com/carry0987/Chrome-Extension-Starter/commit/0cfe6c629e446dce4638434581e3be6424759e06))
+* **styles:** introduce TailGrids theme foundation ([aed0f5b](https://github.com/carry0987/Chrome-Extension-Starter/commit/aed0f5b93d34975545bfffd3af00a000ecbd3060))
+* **ui:** rebuild popup and options with TailGrids components ([85d4494](https://github.com/carry0987/Chrome-Extension-Starter/commit/85d4494b1e43ec5ac1624ea0c39e1bb215805a7a))
+
+
+### Bug Fixes
+
+* Remove old Tailgrids ([f30c2c9](https://github.com/carry0987/Chrome-Extension-Starter/commit/f30c2c94ae5d93b0de50dd92b1e74723eb839d8b))
+
 ## [1.6.0](https://github.com/carry0987/Chrome-Extension-Starter/compare/v1.5.0...v1.6.0) (2026-03-29)
 
 
