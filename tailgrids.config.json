@@ -1,0 +1,6 @@
+{
+  "theme": "default",
+  "alias": "@",
+  "framework": "Unknown",
+  "mainCssFile": "src/shared/styles.css"
+}
